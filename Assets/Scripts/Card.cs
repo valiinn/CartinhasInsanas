@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using TMPro;
 
+// É uma boa prática garantir que o Prefab da carta também tenha um CanvasGroup.
 [RequireComponent(typeof(CanvasGroup))]
 public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -20,19 +21,27 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     [Header("Preview")]
     public GameObject cardPreviewPrefab; // Prefab da versão ampliada
-    private GameObject currentPreview;
 
+    [Tooltip("A camada/container onde o preview da carta será instanciado. Deve estar em um Canvas superior.")]
+    public Transform previewLayer;
+
+    private GameObject currentPreview;
     private Transform originalParent;
     private CanvasGroup canvasGroup;
-    private Canvas canvas;
+    private Canvas mainCanvas;
 
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        canvas = GetComponentInParent<Canvas>();
+        mainCanvas = GetComponentInParent<Canvas>();
 
+        // Se a draggingLayer não for definida, usa o Canvas principal como padrão.
         if (draggingLayer == null)
-            draggingLayer = canvas.transform;
+            draggingLayer = mainCanvas.transform;
+
+        // **MELHORIA**: Se a camada de preview não for definida, usa a camada de arrastar como padrão.
+        if (previewLayer == null)
+            previewLayer = draggingLayer;
 
         AtualizarUI();
     }
@@ -47,13 +56,16 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     #region Drag & Drop
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // Se houver um preview ativo ao começar a arrastar, ele é destruído.
+        if (currentPreview != null)
+        {
+            Destroy(currentPreview);
+        }
+
         originalParent = transform.parent;
         transform.SetParent(draggingLayer);
-        transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one; // Garante que a escala não seja afetada pelo novo pai.
         canvasGroup.blocksRaycasts = false;
-
-        // Se estiver com preview aberto, fecha
-        if (currentPreview != null) Destroy(currentPreview);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -66,7 +78,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (transform.parent == draggingLayer)
         {
             transform.SetParent(originalParent);
-            transform.localPosition = Vector3.zero;
+            // Se estiver usando um LayoutGroup, ele cuidará da posição.
+            // Se não, descomente a linha abaixo para resetar a posição local.
+            // transform.localPosition = Vector3.zero;
         }
         canvasGroup.blocksRaycasts = true;
     }
@@ -75,24 +89,40 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     #region Hover Preview
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (cardPreviewPrefab != null)
+        // Garante que não está arrastando para mostrar o preview
+        if (eventData.dragging) return;
+
+        if (cardPreviewPrefab != null && currentPreview == null)
         {
-            currentPreview = Instantiate(cardPreviewPrefab, canvas.transform);
-            currentPreview.transform.SetAsLastSibling(); // garante que fique acima de tudo
+            // Instancia o preview na camada designada (CanvasOverlay)
+            currentPreview = Instantiate(cardPreviewPrefab, previewLayer);
+            currentPreview.transform.SetAsLastSibling(); // Garante que fique acima de outros elementos na mesma camada.
+
+            CanvasGroup previewCanvasGroup = currentPreview.GetComponent<CanvasGroup>();
+            if (previewCanvasGroup == null)
+            {
+                // Garante que o prefab do preview sempre terá um CanvasGroup.
+                previewCanvasGroup = currentPreview.AddComponent<CanvasGroup>();
+            }
+            previewCanvasGroup.blocksRaycasts = false;
+            // ===================================
 
             // Ajusta o preview com os mesmos dados da carta
-            Card previewCard = currentPreview.GetComponent<Card>();
-            if (previewCard != null)
+            Card previewCardComponent = currentPreview.GetComponent<Card>();
+            if (previewCardComponent != null)
             {
-                previewCard.nome = this.nome;
-                previewCard.vida = this.vida;
-                previewCard.dano = this.dano;
-                previewCard.AtualizarUI();
+                previewCardComponent.nome = this.nome;
+                previewCardComponent.vida = this.vida;
+                previewCardComponent.dano = this.dano;
+                previewCardComponent.AtualizarUI();
             }
 
-            // Opcional: posiciona no centro da tela ou perto do mouse
+            // Posiciona no centro da tela
             RectTransform rt = currentPreview.GetComponent<RectTransform>();
-            rt.anchoredPosition = Vector2.zero;
+            if (rt != null)
+            {
+                rt.anchoredPosition = Vector2.zero;
+            }
         }
     }
 
@@ -101,6 +131,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (currentPreview != null)
         {
             Destroy(currentPreview);
+            currentPreview = null; // Limpa a referência para evitar problemas
         }
     }
     #endregion

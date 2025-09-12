@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7198374782792219962}
   - component: {fileID: 6231283347616029575}
   m_Layer: 5
-  m_Name: CarlosPreview
+  m_Name: PatoSapato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -101.39, y: 18}
-  m_SizeDelta: {x: 302.7736, y: 348.581}
+  m_AnchoredPosition: {x: -109.3, y: 4.1579}
+  m_SizeDelta: {x: 77.6111, y: 91.6841}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2496571979512873358
 CanvasRenderer:
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 947012166440089454, guid: eef067b05a4d011459a0af5cf8b3b950, type: 3}
+  m_Sprite: {fileID: 352361429465607350, guid: b44e9629fc101804fabee7daf228556b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,14 +89,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9d4002d53d20c4eb332b7079a90e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nome: Carlos
-  vida: 100
-  dano: 20
+  nome: Joker
+  vida: 10
+  dano: 5
   vidaText: {fileID: 0}
   danoText: {fileID: 0}
   nomeText: {fileID: 0}
   draggingLayer: {fileID: 0}
-  cardPreviewPrefab: {fileID: 0}
+  cardPreviewPrefab: {fileID: 747456636909858010, guid: 3846afb131d91694db939b99ca48bc81, type: 3}
+  previewLayer: {fileID: 0}
 --- !u!225 &6231283347616029575
 CanvasGroup:
   m_ObjectHideFlags: 0

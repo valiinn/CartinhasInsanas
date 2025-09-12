@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7198374782792219962}
   - component: {fileID: 6231283347616029575}
   m_Layer: 5
-  m_Name: Arthur
+  m_Name: Orninto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2231428398761694346, guid: 74bdc38ba9742664e9200339f46c7430, type: 3}
+  m_Sprite: {fileID: -3809463304743894102, guid: 189847a06d02f8647b6efaeb8002a30a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,14 +89,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9d4002d53d20c4eb332b7079a90e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nome: Dr.Mamede
-  vida: 150
-  dano: 15
+  nome: Joker
+  vida: 10
+  dano: 5
   vidaText: {fileID: 0}
   danoText: {fileID: 0}
   nomeText: {fileID: 0}
   draggingLayer: {fileID: 0}
-  cardPreviewPrefab: {fileID: 747456636909858010, guid: 26fe944ff5384974ebaf074d4c3b8702, type: 3}
+  cardPreviewPrefab: {fileID: 747456636909858010, guid: 179a510dc98ee344f86dd6a5c8550d6a, type: 3}
+  previewLayer: {fileID: 0}
 --- !u!225 &6231283347616029575
 CanvasGroup:
   m_ObjectHideFlags: 0
