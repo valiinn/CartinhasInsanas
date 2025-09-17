@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 7809987237029185276}
   - component: {fileID: 2496571979512873358}
   - component: {fileID: 1307434028661065356}
-  - component: {fileID: 7198374782792219962}
   - component: {fileID: 6231283347616029575}
-  m_Layer: 5
-  m_Name: PatoSapato
+  - component: {fileID: 8572476677925907729}
+  m_Layer: 3
+  m_Name: baiacuPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -109.3, y: 4.1579}
-  m_SizeDelta: {x: 77.6111, y: 91.6841}
+  m_AnchoredPosition: {x: -101.39, y: 18}
+  m_SizeDelta: {x: 302.7736, y: 348.581}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2496571979512873358
 CanvasRenderer:
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 352361429465607350, guid: b44e9629fc101804fabee7daf228556b, type: 3}
+  m_Sprite: {fileID: -632787810733871795, guid: c1fec22fb49252d4d81d43d1c09d751f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -77,27 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7198374782792219962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747456636909858010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae9d4002d53d20c4eb332b7079a90e2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nome: Joker
-  vida: 10
-  dano: 5
-  vidaText: {fileID: 0}
-  danoText: {fileID: 0}
-  nomeText: {fileID: 0}
-  draggingLayer: {fileID: 0}
-  cardPreviewPrefab: {fileID: 747456636909858010, guid: 3846afb131d91694db939b99ca48bc81, type: 3}
-  previewLayer: {fileID: 0}
 --- !u!225 &6231283347616029575
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -110,3 +89,24 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8572476677925907729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9d4002d53d20c4eb332b7079a90e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: 
+  vida: 10
+  dano: 5
+  vidaText: {fileID: 0}
+  danoText: {fileID: 0}
+  nomeText: {fileID: 0}
+  draggingLayer: {fileID: 0}
+  cardPreviewPrefab: {fileID: 0}
+  previewLayer: {fileID: 0}

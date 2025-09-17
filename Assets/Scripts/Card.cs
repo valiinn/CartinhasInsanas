@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// É uma boa prática garantir que o Prefab da carta também tenha um CanvasGroup.
+public enum CardRarity { Comum, Rara, Epica, Lendaria }
+
 [RequireComponent(typeof(CanvasGroup))]
 public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -10,21 +12,25 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public string nome;
     public int vida = 10;
     public int dano = 5;
+    [HideInInspector] public int custo; // calculado pela raridade
+    public CardRarity raridade;
 
     [Header("Referências UI")]
     public TMP_Text vidaText;
     public TMP_Text danoText;
     public TMP_Text nomeText;
+    public TMP_Text custoText;
+    public TMP_Text raridadeText;
+    public Image background;
 
     [Header("Drag & Drop")]
     public Transform draggingLayer;
 
     [Header("Preview")]
-    public GameObject cardPreviewPrefab; // Prefab da versão ampliada
-
-    [Tooltip("A camada/container onde o preview da carta será instanciado. Deve estar em um Canvas superior.")]
+    public GameObject cardPreviewPrefab;
     public Transform previewLayer;
 
+    // runtime
     private GameObject currentPreview;
     private Transform originalParent;
     private CanvasGroup canvasGroup;
@@ -35,15 +41,29 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         canvasGroup = GetComponent<CanvasGroup>();
         mainCanvas = GetComponentInParent<Canvas>();
 
-        // Se a draggingLayer não for definida, usa o Canvas principal como padrão.
-        if (draggingLayer == null)
+        if (mainCanvas == null)
+            Debug.LogWarning("Card: Canvas pai não encontrado. Defina um Canvas no GameObject pai.");
+
+        if (draggingLayer == null && mainCanvas != null)
             draggingLayer = mainCanvas.transform;
 
-        // **MELHORIA**: Se a camada de preview não for definida, usa a camada de arrastar como padrão.
         if (previewLayer == null)
             previewLayer = draggingLayer;
 
+        DefinirCustoPorRaridade();
         AtualizarUI();
+    }
+
+    void DefinirCustoPorRaridade()
+    {
+        switch (raridade)
+        {
+            case CardRarity.Comum: custo = 2; break;
+            case CardRarity.Rara: custo = 3; break;
+            case CardRarity.Epica: custo = 4; break;
+            case CardRarity.Lendaria: custo = 5; break;
+            default: custo = 2; break;
+        }
     }
 
     public void AtualizarUI()
@@ -51,37 +71,59 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (vidaText != null) vidaText.text = "❤ " + vida;
         if (danoText != null) danoText.text = "⚔ " + dano;
         if (nomeText != null) nomeText.text = nome;
+        if (custoText != null) custoText.text = "🪙 " + custo;
+        if (raridadeText != null) raridadeText.text = $"{raridade} ({custo}g)";
+        AtualizarCorPorRaridade();
     }
 
-    #region Drag & Drop
+    void AtualizarCorPorRaridade()
+    {
+        if (background == null) return;
+        switch (raridade)
+        {
+            case CardRarity.Comum: background.color = Color.gray; break;
+            case CardRarity.Rara: background.color = Color.cyan; break;
+            case CardRarity.Epica: background.color = new Color(0.6f, 0f, 0.8f); break;
+            case CardRarity.Lendaria: background.color = new Color(1f, 0.84f, 0f); break;
+        }
+    }
+
+    #region Drag & Drop (implementações das interfaces)
+    // Assinaturas exatas exigidas pelas interfaces do UnityEngine.EventSystems
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // Se houver um preview ativo ao começar a arrastar, ele é destruído.
+        // Debug útil caso ainda dê problema
+        // Debug.Log("OnBeginDrag: " + gameObject.name);
+
         if (currentPreview != null)
         {
             Destroy(currentPreview);
+            currentPreview = null;
         }
 
         originalParent = transform.parent;
-        transform.SetParent(draggingLayer);
-        transform.localScale = Vector3.one; // Garante que a escala não seja afetada pelo novo pai.
+        if (draggingLayer != null)
+            transform.SetParent(draggingLayer);
+        transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        // Debug.Log("OnDrag: " + gameObject.name);
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (transform.parent == draggingLayer)
+        // Debug.Log("OnEndDrag: " + gameObject.name);
+        // se não foi colocado em algum lugar válido, volta ao parent original
+        if (transform.parent == draggingLayer || transform.parent == mainCanvas.transform)
         {
             transform.SetParent(originalParent);
-            // Se estiver usando um LayoutGroup, ele cuidará da posição.
-            // Se não, descomente a linha abaixo para resetar a posição local.
-            // transform.localPosition = Vector3.zero;
+            transform.localPosition = Vector3.zero;
         }
+
         canvasGroup.blocksRaycasts = true;
     }
     #endregion
@@ -89,40 +131,29 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     #region Hover Preview
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Garante que não está arrastando para mostrar o preview
-        if (eventData.dragging) return;
+        if (eventData != null && eventData.dragging) return;
 
         if (cardPreviewPrefab != null && currentPreview == null)
         {
-            // Instancia o preview na camada designada (CanvasOverlay)
             currentPreview = Instantiate(cardPreviewPrefab, previewLayer);
-            currentPreview.transform.SetAsLastSibling(); // Garante que fique acima de outros elementos na mesma camada.
+            currentPreview.transform.SetAsLastSibling();
+            CanvasGroup previewCG = currentPreview.GetComponent<CanvasGroup>();
+            if (previewCG == null) previewCG = currentPreview.AddComponent<CanvasGroup>();
+            previewCG.blocksRaycasts = false;
 
-            CanvasGroup previewCanvasGroup = currentPreview.GetComponent<CanvasGroup>();
-            if (previewCanvasGroup == null)
+            Card previewCard = currentPreview.GetComponent<Card>();
+            if (previewCard != null)
             {
-                // Garante que o prefab do preview sempre terá um CanvasGroup.
-                previewCanvasGroup = currentPreview.AddComponent<CanvasGroup>();
-            }
-            previewCanvasGroup.blocksRaycasts = false;
-            // ===================================
-
-            // Ajusta o preview com os mesmos dados da carta
-            Card previewCardComponent = currentPreview.GetComponent<Card>();
-            if (previewCardComponent != null)
-            {
-                previewCardComponent.nome = this.nome;
-                previewCardComponent.vida = this.vida;
-                previewCardComponent.dano = this.dano;
-                previewCardComponent.AtualizarUI();
+                previewCard.nome = this.nome;
+                previewCard.vida = this.vida;
+                previewCard.dano = this.dano;
+                previewCard.raridade = this.raridade;
+                previewCard.DefinirCustoPorRaridade();
+                previewCard.AtualizarUI();
             }
 
-            // Posiciona no centro da tela
             RectTransform rt = currentPreview.GetComponent<RectTransform>();
-            if (rt != null)
-            {
-                rt.anchoredPosition = Vector2.zero;
-            }
+            if (rt != null) rt.anchoredPosition = Vector2.zero;
         }
     }
 
@@ -131,7 +162,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (currentPreview != null)
         {
             Destroy(currentPreview);
-            currentPreview = null; // Limpa a referência para evitar problemas
+            currentPreview = null;
         }
     }
     #endregion

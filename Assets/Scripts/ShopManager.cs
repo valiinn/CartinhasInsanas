@@ -63,18 +63,22 @@ public class ShopManager : MonoBehaviour
             });
             trigger.triggers.Add(drag);
 
-            // EndDrag
+            //  EndDrag
             EventTrigger.Entry endDrag = new EventTrigger.Entry { eventID = EventTriggerType.EndDrag };
             endDrag.callback.AddListener((data) =>
             {
                 PointerEventData pointerData = (PointerEventData)data;
                 GameObject dropTarget = pointerData.pointerCurrentRaycast.gameObject;
 
+                // pega o custo da carta atual
+                Card cardComponent = cardInstance.GetComponent<Card>();
+                int cardCost = (cardComponent != null) ? cardComponent.custo : 5;
+
                 if (dropTarget != null && dropTarget.transform.IsChildOf(boardPanel))
                 {
-                    if (!cardBought[cardInstance] && playerStats.gold >= 5)
+                    if (!cardBought[cardInstance] && playerStats.gold >= cardCost)
                     {
-                        playerStats.SpendGold(5);
+                        playerStats.SpendGold(cardCost);
                         cardBought[cardInstance] = true;
                     }
                     cardInstance.transform.SetParent(dropTarget.transform);
@@ -84,7 +88,7 @@ public class ShopManager : MonoBehaviour
                 {
                     if (cardBought[cardInstance])
                     {
-                        playerStats.AddGold(5);
+                        playerStats.AddGold(cardCost);
                         cardBought[cardInstance] = false;
                     }
                     cardInstance.transform.SetParent(shopPanel);
@@ -92,6 +96,7 @@ public class ShopManager : MonoBehaviour
                 }
             });
             trigger.triggers.Add(endDrag);
+
         }
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: eef067b05a4d011459a0af5cf8b3b950
+guid: c1fec22fb49252d4d81d43d1c09d751f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 947012166440089454
-    second: cartacarlos_0
+      213: -632787810733871795
+    second: baiacu_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cartacarlos_0
+      name: baiacu_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 416
-        height: 590
+        width: 1132
+        height: 1600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e6772a24c86742d00800000000000000
-      internalID: 947012166440089454
+      spriteID: d4da20bb6d2e737f0800000000000000
+      internalID: -632787810733871795
       vertices: []
       indices: 
       edges: []

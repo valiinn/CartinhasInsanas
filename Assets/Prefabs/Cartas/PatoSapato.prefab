@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7198374782792219962}
   - component: {fileID: 6231283347616029575}
   m_Layer: 5
-  m_Name: Orninto
+  m_Name: PatoSapato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8950479419333149515}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -67,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3809463304743894102, guid: 189847a06d02f8647b6efaeb8002a30a, type: 3}
+  m_Sprite: {fileID: 352361429465607350, guid: b44e9629fc101804fabee7daf228556b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,14 +90,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9d4002d53d20c4eb332b7079a90e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nome: Joker
+  nome: Pato
   vida: 10
   dano: 5
+  custo: 3
+  raridade: 1
   vidaText: {fileID: 0}
   danoText: {fileID: 0}
   nomeText: {fileID: 0}
+  custoText: {fileID: 0}
+  raridadeText: {fileID: 0}
+  background: {fileID: 7777499537097079538}
   draggingLayer: {fileID: 0}
-  cardPreviewPrefab: {fileID: 747456636909858010, guid: 179a510dc98ee344f86dd6a5c8550d6a, type: 3}
+  cardPreviewPrefab: {fileID: 747456636909858010, guid: 3846afb131d91694db939b99ca48bc81, type: 3}
   previewLayer: {fileID: 0}
 --- !u!225 &6231283347616029575
 CanvasGroup:
@@ -110,3 +116,78 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &7137207714032919048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8950479419333149515}
+  - component: {fileID: 3919277054007867665}
+  - component: {fileID: 7777499537097079538}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8950479419333149515
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7137207714032919048}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7809987237029185276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 17.916992, y: -35.399994}
+  m_SizeDelta: {x: 41.7761, y: 13.6934}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3919277054007867665
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7137207714032919048}
+  m_CullTransparentMesh: 1
+--- !u!114 &7777499537097079538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7137207714032919048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

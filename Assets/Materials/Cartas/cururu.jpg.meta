@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8a5ab43e465fc054e863557c20ef4101
+guid: 4b32c9b8ad9d6b74cba7ea631f8a06a4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4998455143283755344
-    second: joker_0
+      213: -733911464932821510
+    second: cururu_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: joker_0
+      name: cururu_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 491
-        height: 750
+        width: 1132
+        height: 1600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b6f8d6b78be1aab0800000000000000
-      internalID: -4998455143283755344
+      spriteID: af5b71c396f90d5f0800000000000000
+      internalID: -733911464932821510
       vertices: []
       indices: 
       edges: []
