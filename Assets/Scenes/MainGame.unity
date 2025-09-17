@@ -3351,7 +3351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e4c60f0b13e7ce4fa8e798d9d340dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 20
+  gold: 100
   goldText: {fileID: 1392678011}
 --- !u!1 &1983033054
 GameObject:
