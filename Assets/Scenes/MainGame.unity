@@ -497,6 +497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &297504864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &402449504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,6 +816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &548484659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,6 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &587182700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1244,6 +1248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &679911677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1334,6 +1339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &680326964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1347,7 +1353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+  m_Color: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1424,6 +1430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &685401476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,6 +1482,7 @@ GameObject:
   - component: {fileID: 747215543}
   - component: {fileID: 747215542}
   - component: {fileID: 747215545}
+  - component: {fileID: 747215546}
   m_Layer: 5
   m_Name: ShopPanel
   m_TagString: Untagged
@@ -1588,6 +1596,19 @@ MonoBehaviour:
   - {fileID: 747456636909858010, guid: 5a1d878f0a2a4f44893c255b2f5cdd01, type: 3}
   - {fileID: 747456636909858010, guid: 59a9fc2c794af074887705b37a327eed, type: 3}
   - {fileID: 747456636909858010, guid: 4a4af7ea5d4ae6d4b95593bec06a9c61, type: 3}
+--- !u!114 &747215546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747215540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f4638798d3d99a4da4861b04adca9e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPanel: {fileID: 747215541}
 --- !u!1 &779162141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1676,6 +1697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &843608352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1766,6 +1788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &906520966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1931,6 +1954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1093396330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2021,6 +2045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1104720085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2111,6 +2136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1255307450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2337,6 +2363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1317539618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2427,6 +2454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1344274021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2517,6 +2545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1378312717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2743,6 +2772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1456361450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2833,6 +2863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1473156039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2995,6 +3026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1530706381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3085,6 +3117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1702410942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3098,7 +3131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+  m_Color: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3175,6 +3208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1803989030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3265,6 +3299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &1940644464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3477,6 +3512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &2030916173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3567,6 +3603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &2081145607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3657,6 +3694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillParent: 1
   padding: {x: 0, y: 0}
+  allowSwap: 1
 --- !u!114 &2145903547
 MonoBehaviour:
   m_ObjectHideFlags: 0
