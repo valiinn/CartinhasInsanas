@@ -7,7 +7,6 @@ public class TileHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Image image;
     private Color originalColor;
     private Color targetColor;
-    private bool isHighlighted;
     [Header("Cor de destaque")]
     public Color highlightColor = Color.yellow;
 
@@ -30,12 +29,10 @@ public class TileHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         targetColor = highlightColor;
-        isHighlighted = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         targetColor = originalColor;
-        isHighlighted = false;
     }
 }

@@ -86,6 +86,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     void AtualizarCorPorRaridade()
     {
         if (background == null) return;
+
         switch (raridade)
         {
             case CardRarity.Comum: background.color = Color.gray; break;
@@ -156,6 +157,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             currentPreview = Instantiate(cardPreviewPrefab, previewLayer);
             currentPreview.transform.SetAsLastSibling();
+
             CanvasGroup previewCG = currentPreview.GetComponent<CanvasGroup>();
             if (previewCG == null) previewCG = currentPreview.AddComponent<CanvasGroup>();
             previewCG.blocksRaycasts = false;
