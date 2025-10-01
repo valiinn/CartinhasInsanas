@@ -457,6 +457,7 @@ GameObject:
   - component: {fileID: 297504865}
   - component: {fileID: 297504864}
   - component: {fileID: 297504863}
+  - component: {fileID: 297504866}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -535,6 +536,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297504861}
   m_CullTransparentMesh: 1
+--- !u!114 &297504866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297504861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &402449501
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +562,7 @@ GameObject:
   - component: {fileID: 402449505}
   - component: {fileID: 402449504}
   - component: {fileID: 402449503}
+  - component: {fileID: 402449506}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -625,6 +641,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 402449501}
   m_CullTransparentMesh: 1
+--- !u!114 &402449506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402449501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,6 +804,7 @@ GameObject:
   - component: {fileID: 548484660}
   - component: {fileID: 548484659}
   - component: {fileID: 548484658}
+  - component: {fileID: 548484661}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -852,6 +883,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548484656}
   m_CullTransparentMesh: 1
+--- !u!114 &548484661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548484656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &587182697
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,6 +909,7 @@ GameObject:
   - component: {fileID: 587182701}
   - component: {fileID: 587182700}
   - component: {fileID: 587182699}
+  - component: {fileID: 587182702}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -942,6 +988,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587182697}
   m_CullTransparentMesh: 1
+--- !u!114 &587182702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587182697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,6 +1264,7 @@ GameObject:
   - component: {fileID: 679911678}
   - component: {fileID: 679911677}
   - component: {fileID: 679911676}
+  - component: {fileID: 679911679}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -1282,6 +1343,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679911674}
   m_CullTransparentMesh: 1
+--- !u!114 &679911679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679911674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &680326961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,6 +1369,7 @@ GameObject:
   - component: {fileID: 680326965}
   - component: {fileID: 680326964}
   - component: {fileID: 680326963}
+  - component: {fileID: 680326966}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -1372,6 +1448,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680326961}
   m_CullTransparentMesh: 1
+--- !u!114 &680326966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680326961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &685401473
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,6 +1474,7 @@ GameObject:
   - component: {fileID: 685401477}
   - component: {fileID: 685401476}
   - component: {fileID: 685401475}
+  - component: {fileID: 685401478}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -1462,6 +1553,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 685401473}
   m_CullTransparentMesh: 1
+--- !u!114 &685401478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685401473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &747215540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,6 +1741,7 @@ GameObject:
   - component: {fileID: 843608353}
   - component: {fileID: 843608352}
   - component: {fileID: 843608351}
+  - component: {fileID: 843608354}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -1714,6 +1820,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843608349}
   m_CullTransparentMesh: 1
+--- !u!114 &843608354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843608349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &906520963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1846,7 @@ GameObject:
   - component: {fileID: 906520967}
   - component: {fileID: 906520966}
   - component: {fileID: 906520965}
+  - component: {fileID: 906520968}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -1804,6 +1925,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906520963}
   m_CullTransparentMesh: 1
+--- !u!114 &906520968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906520963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &963636867
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,6 +2026,7 @@ GameObject:
   - component: {fileID: 1093396331}
   - component: {fileID: 1093396330}
   - component: {fileID: 1093396329}
+  - component: {fileID: 1093396332}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -1969,6 +2105,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093396327}
   m_CullTransparentMesh: 1
+--- !u!114 &1093396332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093396327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1104720082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,6 +2131,7 @@ GameObject:
   - component: {fileID: 1104720086}
   - component: {fileID: 1104720085}
   - component: {fileID: 1104720084}
+  - component: {fileID: 1104720087}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -2059,6 +2210,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104720082}
   m_CullTransparentMesh: 1
+--- !u!114 &1104720087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104720082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1255307447
 GameObject:
   m_ObjectHideFlags: 0
@@ -2071,6 +2236,7 @@ GameObject:
   - component: {fileID: 1255307451}
   - component: {fileID: 1255307450}
   - component: {fileID: 1255307449}
+  - component: {fileID: 1255307452}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -2149,6 +2315,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255307447}
   m_CullTransparentMesh: 1
+--- !u!114 &1255307452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255307447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1272375123
 GameObject:
   m_ObjectHideFlags: 0
@@ -2297,6 +2477,7 @@ GameObject:
   - component: {fileID: 1317539619}
   - component: {fileID: 1317539618}
   - component: {fileID: 1317539617}
+  - component: {fileID: 1317539620}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -2375,6 +2556,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1317539615}
   m_CullTransparentMesh: 1
+--- !u!114 &1317539620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317539615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1344274018
 GameObject:
   m_ObjectHideFlags: 0
@@ -2387,6 +2582,7 @@ GameObject:
   - component: {fileID: 1344274022}
   - component: {fileID: 1344274021}
   - component: {fileID: 1344274020}
+  - component: {fileID: 1344274023}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -2465,6 +2661,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344274018}
   m_CullTransparentMesh: 1
+--- !u!114 &1344274023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344274018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1378312714
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,6 +2687,7 @@ GameObject:
   - component: {fileID: 1378312718}
   - component: {fileID: 1378312717}
   - component: {fileID: 1378312716}
+  - component: {fileID: 1378312719}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -2555,6 +2766,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1378312714}
   m_CullTransparentMesh: 1
+--- !u!114 &1378312719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378312714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1392678010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2703,6 +2928,7 @@ GameObject:
   - component: {fileID: 1456361451}
   - component: {fileID: 1456361450}
   - component: {fileID: 1456361449}
+  - component: {fileID: 1456361452}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -2781,6 +3007,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456361447}
   m_CullTransparentMesh: 1
+--- !u!114 &1456361452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456361447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1473156036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2793,6 +3033,7 @@ GameObject:
   - component: {fileID: 1473156040}
   - component: {fileID: 1473156039}
   - component: {fileID: 1473156038}
+  - component: {fileID: 1473156041}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -2871,6 +3112,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473156036}
   m_CullTransparentMesh: 1
+--- !u!114 &1473156041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473156036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1505606564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2955,6 +3210,7 @@ GameObject:
   - component: {fileID: 1530706382}
   - component: {fileID: 1530706381}
   - component: {fileID: 1530706380}
+  - component: {fileID: 1530706383}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -3033,6 +3289,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530706378}
   m_CullTransparentMesh: 1
+--- !u!114 &1530706383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530706378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1702410939
 GameObject:
   m_ObjectHideFlags: 0
@@ -3045,6 +3315,7 @@ GameObject:
   - component: {fileID: 1702410943}
   - component: {fileID: 1702410942}
   - component: {fileID: 1702410941}
+  - component: {fileID: 1702410944}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -3123,6 +3394,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702410939}
   m_CullTransparentMesh: 1
+--- !u!114 &1702410944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702410939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1803989027
 GameObject:
   m_ObjectHideFlags: 0
@@ -3135,6 +3420,7 @@ GameObject:
   - component: {fileID: 1803989031}
   - component: {fileID: 1803989030}
   - component: {fileID: 1803989029}
+  - component: {fileID: 1803989032}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -3213,6 +3499,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803989027}
   m_CullTransparentMesh: 1
+--- !u!114 &1803989032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803989027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1940644461
 GameObject:
   m_ObjectHideFlags: 0
@@ -3225,6 +3525,7 @@ GameObject:
   - component: {fileID: 1940644465}
   - component: {fileID: 1940644464}
   - component: {fileID: 1940644463}
+  - component: {fileID: 1940644466}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -3303,6 +3604,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1940644461}
   m_CullTransparentMesh: 1
+--- !u!114 &1940644466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940644461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &1966830805
 GameObject:
   m_ObjectHideFlags: 0
@@ -3437,6 +3752,7 @@ GameObject:
   - component: {fileID: 2030916174}
   - component: {fileID: 2030916173}
   - component: {fileID: 2030916172}
+  - component: {fileID: 2030916175}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -3515,6 +3831,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030916170}
   m_CullTransparentMesh: 1
+--- !u!114 &2030916175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030916170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &2081145604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3527,6 +3857,7 @@ GameObject:
   - component: {fileID: 2081145608}
   - component: {fileID: 2081145607}
   - component: {fileID: 2081145606}
+  - component: {fileID: 2081145609}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -3605,6 +3936,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081145604}
   m_CullTransparentMesh: 1
+--- !u!114 &2081145609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081145604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1 &2145903544
 GameObject:
   m_ObjectHideFlags: 0
@@ -3617,6 +3962,7 @@ GameObject:
   - component: {fileID: 2145903548}
   - component: {fileID: 2145903547}
   - component: {fileID: 2145903546}
+  - component: {fileID: 2145903549}
   m_Layer: 5
   m_Name: Casa
   m_TagString: Untagged
@@ -3695,6 +4041,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145903544}
   m_CullTransparentMesh: 1
+--- !u!114 &2145903549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145903544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d798e8fbe50a5ad449610c54cd215266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fadeSpeed: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
