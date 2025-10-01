@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
@@ -15,8 +14,6 @@ public class ShopManager : MonoBehaviour
     [Header("Cartas disponíveis")]
     public List<GameObject> availableCards;
 
-    private Dictionary<GameObject, bool> cardBought = new Dictionary<GameObject, bool>();
-
     void Start()
     {
         refreshButton.onClick.AddListener(RefreshShop);
@@ -29,8 +26,6 @@ public class ShopManager : MonoBehaviour
         foreach (Transform child in shopPanel)
             Destroy(child.gameObject);
 
-        cardBought.Clear();
-
         // Cria novas cartas
         for (int i = 0; i < cardsPerRefresh; i++)
         {
@@ -39,64 +34,26 @@ public class ShopManager : MonoBehaviour
             GameObject cardPrefab = availableCards[Random.Range(0, availableCards.Count)];
             GameObject cardInstance = Instantiate(cardPrefab, shopPanel);
 
-            cardBought[cardInstance] = false;
+            // Garante que tem CanvasGroup (Card usa para blocksRaycasts)
+            var cg = cardInstance.GetComponent<CanvasGroup>();
+            if (cg == null) cg = cardInstance.AddComponent<CanvasGroup>();
 
-            // Adiciona drag dinamicamente
-            EventTrigger trigger = cardInstance.GetComponent<EventTrigger>();
-            if (trigger == null)
-                trigger = cardInstance.AddComponent<EventTrigger>();
-
-            // BeginDrag
-            EventTrigger.Entry beginDrag = new EventTrigger.Entry { eventID = EventTriggerType.BeginDrag };
-            beginDrag.callback.AddListener((data) =>
+            // Garante que tem Card (drag real) e ShopItem (estado) e ShopItemPurchase (ouro)
+            var card = cardInstance.GetComponent<Card>();
+            if (card == null)
             {
-                cardInstance.transform.SetParent(transform.root); // sobe na hierarquia
-            });
-            trigger.triggers.Add(beginDrag);
+                Debug.LogError("O prefab de carta precisa ter o componente 'Card'.");
+            }
 
-            // Drag
-            EventTrigger.Entry drag = new EventTrigger.Entry { eventID = EventTriggerType.Drag };
-            drag.callback.AddListener((data) =>
-            {
-                PointerEventData pointerData = (PointerEventData)data;
-                cardInstance.transform.position = pointerData.position;
-            });
-            trigger.triggers.Add(drag);
+            var shopItem = cardInstance.GetComponent<ShopItem>();
+            if (shopItem == null) shopItem = cardInstance.AddComponent<ShopItem>();
 
-            //  EndDrag
-            EventTrigger.Entry endDrag = new EventTrigger.Entry { eventID = EventTriggerType.EndDrag };
-            endDrag.callback.AddListener((data) =>
-            {
-                PointerEventData pointerData = (PointerEventData)data;
-                GameObject dropTarget = pointerData.pointerCurrentRaycast.gameObject;
+            var purchase = cardInstance.GetComponent<ShopItemPurchase>();
+            if (purchase == null) purchase = cardInstance.AddComponent<ShopItemPurchase>();
+            purchase.boardPanel = boardPanel;
+            purchase.playerStats = playerStats;
 
-                // pega o custo da carta atual
-                Card cardComponent = cardInstance.GetComponent<Card>();
-                int cardCost = (cardComponent != null) ? cardComponent.custo : 5;
-
-                if (dropTarget != null && dropTarget.transform.IsChildOf(boardPanel))
-                {
-                    if (!cardBought[cardInstance] && playerStats.gold >= cardCost)
-                    {
-                        playerStats.SpendGold(cardCost);
-                        cardBought[cardInstance] = true;
-                    }
-                    cardInstance.transform.SetParent(dropTarget.transform);
-                    cardInstance.transform.localPosition = Vector3.zero;
-                }
-                else
-                {
-                    if (cardBought[cardInstance])
-                    {
-                        playerStats.AddGold(cardCost);
-                        cardBought[cardInstance] = false;
-                    }
-                    cardInstance.transform.SetParent(shopPanel);
-                    cardInstance.transform.localPosition = Vector3.zero;
-                }
-            });
-            trigger.triggers.Add(endDrag);
-
+            // Nada de EventTrigger aqui! Quem cuida do drag é o Card.cs
         }
     }
 }

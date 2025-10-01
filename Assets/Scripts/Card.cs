@@ -33,6 +33,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // runtime
     private GameObject currentPreview;
     private Transform originalParent;
+    public Transform OriginalParent => originalParent; // <<--- ADIÇÃO FICA DENTRO DA CLASSE
     private CanvasGroup canvasGroup;
     private Canvas mainCanvas;
 
@@ -88,12 +89,11 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
     }
 
-    #region Drag & Drop (implementações das interfaces)
-    // Assinaturas exatas exigidas pelas interfaces do UnityEngine.EventSystems
+    #region Drag & Drop
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // Debug útil caso ainda dê problema
-        // Debug.Log("OnBeginDrag: " + gameObject.name);
+        // Guarda de onde saiu (para swap/retorno)
+        originalParent = transform.parent;
 
         if (currentPreview != null)
         {
@@ -101,27 +101,35 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             currentPreview = null;
         }
 
-        originalParent = transform.parent;
         if (draggingLayer != null)
             transform.SetParent(draggingLayer);
+
         transform.localScale = Vector3.one;
         canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // Debug.Log("OnDrag: " + gameObject.name);
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Debug.Log("OnEndDrag: " + gameObject.name);
-        // se não foi colocado em algum lugar válido, volta ao parent original
-        if (transform.parent == draggingLayer || transform.parent == mainCanvas.transform)
+        // Considera aceito se o parent não é a camada de arrasto nem o Canvas raiz
+        bool droppedOnValidSlot =
+            transform.parent != draggingLayer &&
+            (mainCanvas == null || transform.parent != mainCanvas.transform);
+
+        if (droppedOnValidSlot)
         {
+            // FOI aceito em algum slot -> atualiza originalParent para permitir swaps em sequência
+            originalParent = transform.parent;
+        }
+        else
+        {
+            // NÃO foi aceito -> volta para o lugar de onde saiu
             transform.SetParent(originalParent);
-            transform.localPosition = Vector3.zero;
+            transform.localPosition = Vector2.zero;
         }
 
         canvasGroup.blocksRaycasts = true;
