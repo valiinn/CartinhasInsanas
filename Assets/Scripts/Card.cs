@@ -6,7 +6,8 @@ using TMPro;
 public enum CardRarity { Comum, Rara, Epica, Lendaria }
 
 [RequireComponent(typeof(CanvasGroup))]
-public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,
+    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Atributos da Carta")]
     public string nome;
@@ -23,6 +24,11 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public TMP_Text raridadeText;
     public Image background;
 
+    [Header("Painéis")]
+    public Transform shopPanel;   // atribuído pelo ShopManager
+    public Transform handPanel;   // atribuído pelo ShopManager
+    public int maxHandSize = 7;   // limite de cartas na mão
+
     [Header("Drag & Drop")]
     public Transform draggingLayer;
 
@@ -33,7 +39,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // runtime
     private GameObject currentPreview;
     private Transform originalParent;
-    public Transform OriginalParent => originalParent; // <<--- ADIÇÃO FICA DENTRO DA CLASSE
+    public Transform OriginalParent => originalParent;
     private CanvasGroup canvasGroup;
     private Canvas mainCanvas;
 
@@ -69,10 +75,10 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void AtualizarUI()
     {
-        if (vidaText != null) vidaText.text = "❤ " + vida;
-        if (danoText != null) danoText.text = "⚔ " + dano;
+        if (vidaText != null) vidaText.text = "❤" + vida;
+        if (danoText != null) danoText.text = "⚔" + dano;
         if (nomeText != null) nomeText.text = nome;
-        if (custoText != null) custoText.text = "🪙 " + custo;
+        if (custoText != null) custoText.text = "" + custo;
         if (raridadeText != null) raridadeText.text = $"{raridade} ({custo}g)";
         AtualizarCorPorRaridade();
     }
@@ -92,7 +98,12 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     #region Drag & Drop
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // Guarda de onde saiu (para swap/retorno)
+        if (transform.parent == shopPanel) // 🔒 bloqueia drag na loja
+        {
+            eventData.pointerDrag = null;
+            return;
+        }
+
         originalParent = transform.parent;
 
         if (currentPreview != null)
@@ -110,24 +121,24 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (transform.parent == shopPanel) return; // 🔒 bloqueia na loja
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Considera aceito se o parent não é a camada de arrasto nem o Canvas raiz
+        if (transform.parent == shopPanel) return; // 🔒 bloqueia na loja
+
         bool droppedOnValidSlot =
             transform.parent != draggingLayer &&
             (mainCanvas == null || transform.parent != mainCanvas.transform);
 
         if (droppedOnValidSlot)
         {
-            // FOI aceito em algum slot -> atualiza originalParent para permitir swaps em sequência
             originalParent = transform.parent;
         }
         else
         {
-            // NÃO foi aceito -> volta para o lugar de onde saiu
             transform.SetParent(originalParent);
             transform.localPosition = Vector2.zero;
         }
@@ -171,6 +182,31 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             Destroy(currentPreview);
             currentPreview = null;
+        }
+    }
+    #endregion
+
+    #region Compra com Clique
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (transform.parent == shopPanel) // só compra se estiver na loja
+        {
+            if (handPanel == null)
+            {
+                Debug.LogError("HandPanel não atribuído no Card!");
+                return;
+            }
+
+            if (handPanel.childCount >= maxHandSize) // limite de cartas
+            {
+                Debug.Log("Mão cheia! Não é possível comprar mais cartas.");
+                return;
+            }
+
+            // move pra mão
+            transform.SetParent(handPanel);
+            transform.localScale = Vector3.one;
+            transform.localPosition = Vector3.zero;
         }
     }
     #endregion

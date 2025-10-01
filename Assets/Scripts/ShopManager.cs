@@ -7,6 +7,7 @@ public class ShopManager : MonoBehaviour
     [Header("Referências")]
     public Transform shopPanel;
     public Transform boardPanel;
+    public Transform handPanel;      // << novo, arraste no Inspector
     public PlayerStats playerStats;
     public Button refreshButton;
     public int cardsPerRefresh = 5;
@@ -34,17 +35,23 @@ public class ShopManager : MonoBehaviour
             GameObject cardPrefab = availableCards[Random.Range(0, availableCards.Count)];
             GameObject cardInstance = Instantiate(cardPrefab, shopPanel);
 
-            // Garante que tem CanvasGroup (Card usa para blocksRaycasts)
+            // Garante que tem CanvasGroup
             var cg = cardInstance.GetComponent<CanvasGroup>();
             if (cg == null) cg = cardInstance.AddComponent<CanvasGroup>();
 
-            // Garante que tem Card (drag real) e ShopItem (estado) e ShopItemPurchase (ouro)
+            // Configura Card
             var card = cardInstance.GetComponent<Card>();
-            if (card == null)
+            if (card != null)
+            {
+                card.shopPanel = shopPanel;
+                card.handPanel = handPanel;
+            }
+            else
             {
                 Debug.LogError("O prefab de carta precisa ter o componente 'Card'.");
             }
 
+            // Garante que tem ShopItem e ShopItemPurchase
             var shopItem = cardInstance.GetComponent<ShopItem>();
             if (shopItem == null) shopItem = cardInstance.AddComponent<ShopItem>();
 
@@ -52,8 +59,6 @@ public class ShopManager : MonoBehaviour
             if (purchase == null) purchase = cardInstance.AddComponent<ShopItemPurchase>();
             purchase.boardPanel = boardPanel;
             purchase.playerStats = playerStats;
-
-            // Nada de EventTrigger aqui! Quem cuida do drag é o Card.cs
         }
     }
 }
