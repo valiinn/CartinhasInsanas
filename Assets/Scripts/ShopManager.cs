@@ -7,8 +7,8 @@ public class ShopManager : MonoBehaviour
     [Header("Referências")]
     public Transform shopPanel;
     public Transform boardPanel;
-    public Transform handPanel;      // << novo, arraste no Inspector
-    public PlayerStats playerStats;
+    public Transform handPanel;
+    public PlayerStats playerStats;  // arraste o PlayerStats do GameManager no Inspector
     public Button refreshButton;
     public int cardsPerRefresh = 5;
 
@@ -45,16 +45,18 @@ public class ShopManager : MonoBehaviour
             {
                 card.shopPanel = shopPanel;
                 card.handPanel = handPanel;
+                card.playerStats = playerStats; // 🔥 agora o Card sabe quem é o PlayerStats
             }
             else
             {
                 Debug.LogError("O prefab de carta precisa ter o componente 'Card'.");
             }
 
-            // Garante que tem ShopItem e ShopItemPurchase
+            // Garante que tem ShopItem
             var shopItem = cardInstance.GetComponent<ShopItem>();
             if (shopItem == null) shopItem = cardInstance.AddComponent<ShopItem>();
 
+            // Garante que tem ShopItemPurchase
             var purchase = cardInstance.GetComponent<ShopItemPurchase>();
             if (purchase == null) purchase = cardInstance.AddComponent<ShopItemPurchase>();
             purchase.boardPanel = boardPanel;

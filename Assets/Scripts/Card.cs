@@ -25,9 +25,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Image background;
 
     [Header("Painéis")]
-    public Transform shopPanel;   // atribuído pelo ShopManager
-    public Transform handPanel;   // atribuído pelo ShopManager
-    public int maxHandSize = 7;   // limite de cartas na mão
+    public Transform shopPanel;
+    public Transform handPanel;
+    public int maxHandSize = 7;
 
     [Header("Drag & Drop")]
     public Transform draggingLayer;
@@ -35,6 +35,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     [Header("Preview")]
     public GameObject cardPreviewPrefab;
     public Transform previewLayer;
+
+    [Header("Player Stats")]
+    public PlayerStats playerStats; // <<< sempre arrastar no Inspector o objeto PlayerStats da cena
 
     // runtime
     private GameObject currentPreview;
@@ -86,7 +89,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     void AtualizarCorPorRaridade()
     {
         if (background == null) return;
-
         switch (raridade)
         {
             case CardRarity.Comum: background.color = Color.gray; break;
@@ -157,7 +159,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             currentPreview = Instantiate(cardPreviewPrefab, previewLayer);
             currentPreview.transform.SetAsLastSibling();
-
             CanvasGroup previewCG = currentPreview.GetComponent<CanvasGroup>();
             if (previewCG == null) previewCG = currentPreview.AddComponent<CanvasGroup>();
             previewCG.blocksRaycasts = false;
@@ -188,10 +189,11 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
     #endregion
 
-    #region Compra com Clique
+    #region Compra e Venda
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (transform.parent == shopPanel) // só compra se estiver na loja
+        // 📌 COMPRA
+        if (transform.parent == shopPanel)
         {
             if (handPanel == null)
             {
@@ -199,16 +201,38 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 return;
             }
 
-            if (handPanel.childCount >= maxHandSize) // limite de cartas
+            if (handPanel.childCount >= maxHandSize)
             {
                 Debug.Log("Mão cheia! Não é possível comprar mais cartas.");
                 return;
             }
 
-            // move pra mão
-            transform.SetParent(handPanel);
+            if (playerStats != null && playerStats.SpendGold(custo))
+            {
+                transform.SetParent(handPanel);
+                transform.localScale = Vector3.one;
+                transform.localPosition = Vector3.zero;
+
+                var shopItem = GetComponent<ShopItem>();
+                if (shopItem != null) shopItem.bought = true;
+            }
+            else
+            {
+                Debug.Log("Ouro insuficiente para comprar esta carta!");
+            }
+        }
+        // 📌 VENDA
+        else if (transform.parent == handPanel)
+        {
+            if (playerStats != null)
+                playerStats.AddGold(custo);
+
+            transform.SetParent(shopPanel);
             transform.localScale = Vector3.one;
             transform.localPosition = Vector3.zero;
+
+            var shopItem = GetComponent<ShopItem>();
+            if (shopItem != null) shopItem.bought = false;
         }
     }
     #endregion
