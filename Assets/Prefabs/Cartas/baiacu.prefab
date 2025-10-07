@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7198374782792219962}
   - component: {fileID: 6231283347616029575}
   - component: {fileID: -1049561910184024423}
+  - component: {fileID: -7929518859727432514}
+  - component: {fileID: 7321678992234529244}
   m_Layer: 5
   m_Name: baiacu
   m_TagString: Untagged
@@ -103,9 +105,13 @@ MonoBehaviour:
   custoText: {fileID: 5284207992384270432}
   raridadeText: {fileID: 0}
   background: {fileID: 7713635204906363134}
+  shopPanel: {fileID: 0}
+  handPanel: {fileID: 0}
+  maxHandSize: 7
   draggingLayer: {fileID: 0}
   cardPreviewPrefab: {fileID: 747456636909858010, guid: 9b70a42b68b83bb4a952ccce8574def2, type: 3}
   previewLayer: {fileID: 0}
+  playerStats: {fileID: 0}
 --- !u!225 &6231283347616029575
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -132,6 +138,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   bought: 0
+--- !u!114 &-7929518859727432514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b9fc7c61bb41a4daa72517ea06e2c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 5
+--- !u!114 &7321678992234529244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa4f90ec1ac0bf8408a89d8b5f784684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  attackCooldown: 1.2
+  projectileSpeed: 400
+  projectileSpawnPoint: {fileID: 0}
+  IsAlive: 1
 --- !u!1 &934727617211094177
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1307434028661065356}
   - component: {fileID: 7198374782792219962}
   - component: {fileID: 6231283347616029575}
+  - component: {fileID: 8901955792601782244}
+  - component: {fileID: -3653175940040825138}
   m_Layer: 5
   m_Name: PatoSapato
   m_TagString: Untagged
@@ -102,9 +104,13 @@ MonoBehaviour:
   custoText: {fileID: 5674921253882338792}
   raridadeText: {fileID: 0}
   background: {fileID: 7777499537097079538}
+  shopPanel: {fileID: 0}
+  handPanel: {fileID: 0}
+  maxHandSize: 7
   draggingLayer: {fileID: 0}
   cardPreviewPrefab: {fileID: 747456636909858010, guid: 3846afb131d91694db939b99ca48bc81, type: 3}
   previewLayer: {fileID: 0}
+  playerStats: {fileID: 0}
 --- !u!225 &6231283347616029575
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -117,6 +123,36 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8901955792601782244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b9fc7c61bb41a4daa72517ea06e2c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 5
+--- !u!114 &-3653175940040825138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa4f90ec1ac0bf8408a89d8b5f784684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  attackCooldown: 1.2
+  projectileSpeed: 400
+  projectileSpawnPoint: {fileID: 0}
+  IsAlive: 1
 --- !u!1 &3722869409329370292
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1307434028661065356}
   - component: {fileID: 7198374782792219962}
   - component: {fileID: 6231283347616029575}
+  - component: {fileID: -7724325778057745947}
+  - component: {fileID: 2516491850826340411}
   m_Layer: 5
   m_Name: voador
   m_TagString: Untagged
@@ -102,9 +104,13 @@ MonoBehaviour:
   custoText: {fileID: 6521788051420824421}
   raridadeText: {fileID: 0}
   background: {fileID: 6078603425823340202}
+  shopPanel: {fileID: 0}
+  handPanel: {fileID: 0}
+  maxHandSize: 7
   draggingLayer: {fileID: 0}
   cardPreviewPrefab: {fileID: 747456636909858010, guid: c793e5ac657292144b3ab9c15c765ed1, type: 3}
   previewLayer: {fileID: 0}
+  playerStats: {fileID: 0}
 --- !u!225 &6231283347616029575
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -117,6 +123,36 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &-7724325778057745947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b9fc7c61bb41a4daa72517ea06e2c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 5
+--- !u!114 &2516491850826340411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa4f90ec1ac0bf8408a89d8b5f784684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  attackCooldown: 1.2
+  projectileSpeed: 400
+  projectileSpawnPoint: {fileID: 0}
+  IsAlive: 1
 --- !u!1 &3599535641619927656
 GameObject:
   m_ObjectHideFlags: 0
