@@ -1,66 +1,104 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
-    [Header("Referências")]
-    public Transform shopPanel;
-    public Transform boardPanel;
-    public Transform handPanel;
-    public PlayerStats playerStats;  // arraste o PlayerStats do GameManager no Inspector
+    [Header("Painéis da cena")]
+    public Transform shopPanel;          // painel da loja (GridLayoutGroup)
+    public Transform handPanel;          // painel da mão (Grid/Horizontal/Vertical Layout)
+    public Transform draggingLayer;      // geralmente o Canvas raiz
+    public Transform previewLayer;       // opcional (pode ser igual ao draggingLayer)
+
+    [Header("Economia")]
+    public PlayerStats playerStats;
+    public int maxHandSize = 7;
+
+    [Header("UI")]
     public Button refreshButton;
     public int cardsPerRefresh = 5;
 
-    [Header("Cartas disponíveis")]
-    public List<GameObject> availableCards;
+    [Header("Prefabs de carta disponíveis")]
+    public List<GameObject> availableCards = new List<GameObject>();
 
     void Start()
     {
-        refreshButton.onClick.AddListener(RefreshShop);
+        // Fallbacks leves (apenas se não foram setados no Inspector)
+        if (draggingLayer == null) draggingLayer = GetCanvasRootTransform();
+        if (previewLayer == null) previewLayer = draggingLayer;
+        if (playerStats == null) playerStats = GetFirstPlayerStats();
+
+        if (refreshButton != null)
+            refreshButton.onClick.AddListener(RefreshShop);
+
         RefreshShop();
     }
 
     public void RefreshShop()
     {
         // Limpa a loja
-        foreach (Transform child in shopPanel)
-            Destroy(child.gameObject);
+        if (shopPanel != null)
+        {
+            for (int i = shopPanel.childCount - 1; i >= 0; i--)
+                Destroy(shopPanel.GetChild(i).gameObject);
+        }
 
         // Cria novas cartas
         for (int i = 0; i < cardsPerRefresh; i++)
         {
-            if (availableCards.Count == 0) return;
+            if (availableCards == null || availableCards.Count == 0 || shopPanel == null) break;
 
-            GameObject cardPrefab = availableCards[Random.Range(0, availableCards.Count)];
-            GameObject cardInstance = Instantiate(cardPrefab, shopPanel);
+            var prefab = availableCards[Random.Range(0, availableCards.Count)];
+            var cardGO = Instantiate(prefab, shopPanel);
 
-            // Garante que tem CanvasGroup
-            var cg = cardInstance.GetComponent<CanvasGroup>();
-            if (cg == null) cg = cardInstance.AddComponent<CanvasGroup>();
+            // Garante componentes úteis
+            if (cardGO.GetComponent<CanvasGroup>() == null)
+                cardGO.AddComponent<CanvasGroup>();
+            if (cardGO.GetComponent<ShopItem>() == null)
+                cardGO.AddComponent<ShopItem>();
 
-            // Configura Card
-            var card = cardInstance.GetComponent<Card>();
-            if (card != null)
+            // Injeta referências no Card (prefab-friendly)
+            var card = cardGO.GetComponent<Card>();
+            if (card == null)
             {
-                card.shopPanel = shopPanel;
-                card.handPanel = handPanel;
-                card.playerStats = playerStats; // 🔥 agora o Card sabe quem é o PlayerStats
-            }
-            else
-            {
-                Debug.LogError("O prefab de carta precisa ter o componente 'Card'.");
+                Debug.LogError("Prefab de carta não tem componente 'Card'.");
+                continue;
             }
 
-            // Garante que tem ShopItem
-            var shopItem = cardInstance.GetComponent<ShopItem>();
-            if (shopItem == null) shopItem = cardInstance.AddComponent<ShopItem>();
-
-            // Garante que tem ShopItemPurchase
-            var purchase = cardInstance.GetComponent<ShopItemPurchase>();
-            if (purchase == null) purchase = cardInstance.AddComponent<ShopItemPurchase>();
-            purchase.boardPanel = boardPanel;
-            purchase.playerStats = playerStats;
+            card.Setup(
+                shop: shopPanel,
+                hand: handPanel,
+                stats: playerStats,
+                maxHand: maxHandSize,
+                draggingLayerOverride: draggingLayer,
+                previewLayerOverride: previewLayer
+            );
         }
+    }
+
+    // ---------- Helpers ----------
+    private Transform GetCanvasRootTransform()
+    {
+        // 1) Tenta achar um Canvas no(s) pais
+        var canvasInParents = GetComponentInParent<Canvas>();
+        if (canvasInParents != null) return canvasInParents.transform;
+
+        // 2) Pega o primeiro Canvas da cena (Unity 2023+ recomenda FindFirstObjectByType)
+#if UNITY_2023_1_OR_NEWER
+        var canvas = Object.FindFirstObjectByType<Canvas>();
+#else
+        var canvas = Object.FindObjectOfType<Canvas>();
+#endif
+        return canvas ? canvas.transform : null;
+    }
+
+    private PlayerStats GetFirstPlayerStats()
+    {
+#if UNITY_2023_1_OR_NEWER
+        // Tenta achar o primeiro PlayerStats na cena (apenas fallback)
+        return Object.FindFirstObjectByType<PlayerStats>();
+#else
+        return Object.FindObjectOfType<PlayerStats>();
+#endif
     }
 }

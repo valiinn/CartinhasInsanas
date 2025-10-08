@@ -24,7 +24,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public TMP_Text raridadeText;
     public Image background;
 
-    [Header("Painéis")]
+    [Header("Painéis (podem ser preenchidos via Setup)")]
     public Transform shopPanel;
     public Transform handPanel;
     public int maxHandSize = 7;
@@ -36,8 +36,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public GameObject cardPreviewPrefab;
     public Transform previewLayer;
 
-    [Header("Player Stats")]
-    public PlayerStats playerStats; // <<< sempre arrastar no Inspector o objeto PlayerStats da cena
+    [Header("Player Stats (pode ser preenchido via Setup)")]
+    public PlayerStats playerStats;
 
     // runtime
     private GameObject currentPreview;
@@ -45,6 +45,20 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Transform OriginalParent => originalParent;
     private CanvasGroup canvasGroup;
     private Canvas mainCanvas;
+
+    // ==== NOVO: método para injetar referências da cena (prefab-friendly) ====
+    public void Setup(Transform shop, Transform hand, PlayerStats stats, int maxHand = 7,
+                      Transform draggingLayerOverride = null, Transform previewLayerOverride = null)
+    {
+        shopPanel = shop;
+        handPanel = hand;
+        playerStats = stats;
+        maxHandSize = maxHand;
+
+        if (draggingLayerOverride != null) draggingLayer = draggingLayerOverride;
+        if (previewLayerOverride != null) previewLayer = previewLayerOverride;
+    }
+    // ========================================================================
 
     void Awake()
     {
@@ -101,7 +115,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     #region Drag & Drop
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (transform.parent == shopPanel) // 🔒 bloqueia drag na loja
+        // bloqueia drag na loja, se shopPanel foi configurado
+        if (shopPanel != null && transform.parent == shopPanel)
         {
             eventData.pointerDrag = null;
             return;
@@ -124,26 +139,28 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (transform.parent == shopPanel) return; // 🔒 bloqueia na loja
+        if (shopPanel != null && transform.parent == shopPanel) return; // segurança extra
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (transform.parent == shopPanel) return; // 🔒 bloqueia na loja
+        if (shopPanel != null && transform.parent == shopPanel) return; // segurança extra
 
-        bool droppedOnValidSlot =
-            transform.parent != draggingLayer &&
-            (mainCanvas == null || transform.parent != mainCanvas.transform);
+        // Aceita apenas se o parent final for um DropSlot
+        bool droppedInDropSlot = transform.parent != null && transform.parent.GetComponent<DropSlot>() != null;
 
-        if (droppedOnValidSlot)
+        if (droppedInDropSlot)
         {
+            // ficou em um slot válido -> permite swaps encadeados
             originalParent = transform.parent;
         }
         else
         {
-            transform.SetParent(originalParent);
-            transform.localPosition = Vector2.zero;
+            // não caiu em slot válido -> volta para a MÃO (se tiver), senão para o original
+            Transform target = handPanel != null ? handPanel : originalParent;
+            transform.SetParent(target, false);
+            ResetForParent(target);
         }
 
         canvasGroup.blocksRaycasts = true;
@@ -189,15 +206,15 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
     #endregion
 
-    #region Compra e Venda
+    #region Compra e Venda (por clique)
     public void OnPointerClick(PointerEventData eventData)
     {
-        // 📌 COMPRA
-        if (transform.parent == shopPanel)
+        // COMPRA via clique na loja (se shopPanel/handPanel foram configurados)
+        if (shopPanel != null && transform.parent == shopPanel)
         {
             if (handPanel == null)
             {
-                Debug.LogError("HandPanel não atribuído no Card!");
+                Debug.LogError("HandPanel não atribuído no Card (via Setup)!");
                 return;
             }
 
@@ -209,9 +226,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
             if (playerStats != null && playerStats.SpendGold(custo))
             {
-                transform.SetParent(handPanel);
-                transform.localScale = Vector3.one;
-                transform.localPosition = Vector3.zero;
+                transform.SetParent(handPanel, false);
+                ResetForParent(handPanel);
 
                 var shopItem = GetComponent<ShopItem>();
                 if (shopItem != null) shopItem.bought = true;
@@ -221,19 +237,44 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 Debug.Log("Ouro insuficiente para comprar esta carta!");
             }
         }
-        // 📌 VENDA
-        else if (transform.parent == handPanel)
+        // VENDA via clique na mão
+        else if (handPanel != null && transform.parent == handPanel)
         {
             if (playerStats != null)
                 playerStats.AddGold(custo);
 
-            transform.SetParent(shopPanel);
-            transform.localScale = Vector3.one;
-            transform.localPosition = Vector3.zero;
+            if (shopPanel != null)
+            {
+                transform.SetParent(shopPanel, false);
+                ResetForParent(shopPanel);
+            }
 
             var shopItem = GetComponent<ShopItem>();
             if (shopItem != null) shopItem.bought = false;
         }
     }
     #endregion
+
+    // ---------- Helper para não brigar com LayoutGroups ----------
+    private void ResetForParent(Transform parent)
+    {
+        var rt = transform as RectTransform;
+        var prt = parent as RectTransform;
+
+        rt.localScale = Vector3.one;
+        rt.localRotation = Quaternion.identity;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+
+        var hasGrid = prt ? prt.GetComponent<GridLayoutGroup>() : null;
+        var hasH = prt ? prt.GetComponent<HorizontalLayoutGroup>() : null;
+        var hasV = prt ? prt.GetComponent<VerticalLayoutGroup>() : null;
+        bool usesLayout = (hasGrid || hasH || hasV);
+
+        if (!usesLayout)
+        {
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = Vector2.zero;
+        }
+        // se o pai usa LayoutGroup, ele cuida da posição/tamanho automaticamente
+    }
 }
