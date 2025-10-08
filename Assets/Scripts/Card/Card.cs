@@ -6,25 +6,22 @@ using TMPro;
 public enum CardRarity { Comum, Rara, Epica, Lendaria }
 
 [RequireComponent(typeof(CanvasGroup))]
-public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,
+public class Card : MonoBehaviour,
+    IBeginDragHandler, IDragHandler, IEndDragHandler,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Atributos da Carta")]
     public string nome;
-    public int vida = 10;
-    public int dano = 5;
-    [HideInInspector] public int custo; // calculado pela raridade
+    [HideInInspector] public int custo;
     public CardRarity raridade;
 
     [Header("Referências UI")]
-    public TMP_Text vidaText;
-    public TMP_Text danoText;
     public TMP_Text nomeText;
     public TMP_Text custoText;
     public TMP_Text raridadeText;
     public Image background;
 
-    [Header("Painéis")]
+    [Header("Painéis (preenchidos via Setup)")]
     public Transform shopPanel;
     public Transform handPanel;
     public int maxHandSize = 7;
@@ -37,14 +34,34 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Transform previewLayer;
 
     [Header("Player Stats")]
-    public PlayerStats playerStats; // <<< sempre arrastar no Inspector o objeto PlayerStats da cena
+    public PlayerStats playerStats;
 
-    // runtime
+    // --- Runtime ---
     private GameObject currentPreview;
     private Transform originalParent;
-    public Transform OriginalParent => originalParent;
+    public Transform OriginalParent
+    {
+        get => originalParent;
+        set => originalParent = value;
+    }
+
     private CanvasGroup canvasGroup;
     private Canvas mainCanvas;
+
+    // ========================
+    //  SETUP
+    // ========================
+    public void Setup(Transform shop, Transform hand, PlayerStats stats, int maxHand = 7,
+                      Transform draggingLayerOverride = null, Transform previewLayerOverride = null)
+    {
+        shopPanel = shop;
+        handPanel = hand;
+        playerStats = stats;
+        maxHandSize = maxHand;
+
+        if (draggingLayerOverride != null) draggingLayer = draggingLayerOverride;
+        if (previewLayerOverride != null) previewLayer = previewLayerOverride;
+    }
 
     void Awake()
     {
@@ -64,6 +81,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         AtualizarUI();
     }
 
+    // ========================
+    //  UI / Visual
+    // ========================
     void DefinirCustoPorRaridade()
     {
         switch (raridade)
@@ -78,10 +98,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void AtualizarUI()
     {
-        if (vidaText != null) vidaText.text = "❤" + vida;
-        if (danoText != null) danoText.text = "⚔" + dano;
         if (nomeText != null) nomeText.text = nome;
-        if (custoText != null) custoText.text = "" + custo;
+        if (custoText != null) custoText.text = $"{custo}";
         if (raridadeText != null) raridadeText.text = $"{raridade} ({custo}g)";
         AtualizarCorPorRaridade();
     }
@@ -98,10 +116,13 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
     }
 
-    #region Drag & Drop
+    // ========================
+    //  DRAG & DROP
+    // ========================
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (transform.parent == shopPanel) // 🔒 bloqueia drag na loja
+        // bloqueia drag na loja
+        if (shopPanel != null && transform.parent == shopPanel)
         {
             eventData.pointerDrag = null;
             return;
@@ -124,33 +145,41 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (transform.parent == shopPanel) return; // 🔒 bloqueia na loja
+        if (shopPanel != null && transform.parent == shopPanel) return;
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (transform.parent == shopPanel) return; // 🔒 bloqueia na loja
+        if (shopPanel != null && transform.parent == shopPanel)
+            return;
 
-        bool droppedOnValidSlot =
-            transform.parent != draggingLayer &&
-            (mainCanvas == null || transform.parent != mainCanvas.transform);
+        // volta raycasts antes de qualquer coisa
+        canvasGroup.blocksRaycasts = true;
 
-        if (droppedOnValidSlot)
+        bool droppedInDropSlot = transform.parent != null && transform.parent.GetComponent<DropSlot>() != null;
+
+        if (droppedInDropSlot)
         {
             originalParent = transform.parent;
         }
         else
         {
-            transform.SetParent(originalParent);
-            transform.localPosition = Vector2.zero;
+            Transform target = originalParent != null ? originalParent : handPanel;
+            transform.SetParent(target, false);
+            ResetForParent(target);
+
+            // força atualização de layout (evita bug visual)
+            LayoutRebuilder.ForceRebuildLayoutImmediate(target as RectTransform);
         }
 
-        canvasGroup.blocksRaycasts = true;
+        transform.localScale = Vector3.one;
+        transform.localRotation = Quaternion.identity;
     }
-    #endregion
 
-    #region Hover Preview
+    // ========================
+    //  PREVIEW (HOVER)
+    // ========================
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData != null && eventData.dragging) return;
@@ -159,6 +188,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             currentPreview = Instantiate(cardPreviewPrefab, previewLayer);
             currentPreview.transform.SetAsLastSibling();
+
             CanvasGroup previewCG = currentPreview.GetComponent<CanvasGroup>();
             if (previewCG == null) previewCG = currentPreview.AddComponent<CanvasGroup>();
             previewCG.blocksRaycasts = false;
@@ -166,10 +196,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             Card previewCard = currentPreview.GetComponent<Card>();
             if (previewCard != null)
             {
-                previewCard.nome = this.nome;
-                previewCard.vida = this.vida;
-                previewCard.dano = this.dano;
-                previewCard.raridade = this.raridade;
+                previewCard.nome = nome;
+                previewCard.raridade = raridade;
                 previewCard.DefinirCustoPorRaridade();
                 previewCard.AtualizarUI();
             }
@@ -187,17 +215,18 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             currentPreview = null;
         }
     }
-    #endregion
 
-    #region Compra e Venda
+    // ========================
+    //  COMPRA / VENDA
+    // ========================
     public void OnPointerClick(PointerEventData eventData)
     {
-        // 📌 COMPRA
-        if (transform.parent == shopPanel)
+        // Compra
+        if (shopPanel != null && transform.parent == shopPanel)
         {
             if (handPanel == null)
             {
-                Debug.LogError("HandPanel não atribuído no Card!");
+                Debug.LogError("HandPanel não atribuído!");
                 return;
             }
 
@@ -209,9 +238,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
             if (playerStats != null && playerStats.SpendGold(custo))
             {
-                transform.SetParent(handPanel);
-                transform.localScale = Vector3.one;
-                transform.localPosition = Vector3.zero;
+                transform.SetParent(handPanel, false);
+                ResetForParent(handPanel);
 
                 var shopItem = GetComponent<ShopItem>();
                 if (shopItem != null) shopItem.bought = true;
@@ -221,19 +249,54 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 Debug.Log("Ouro insuficiente para comprar esta carta!");
             }
         }
-        // 📌 VENDA
-        else if (transform.parent == handPanel)
+        // Venda
+        else if (handPanel != null && transform.parent == handPanel)
         {
             if (playerStats != null)
+            {
                 playerStats.AddGold(custo);
+                Debug.Log($"+{custo}g adicionados ao jogador.");
+            }
 
-            transform.SetParent(shopPanel);
-            transform.localScale = Vector3.one;
-            transform.localPosition = Vector3.zero;
+            // Remove da mão e destrói (ou manda de volta pra loja, se quiser reaparecer lá)
+            if (shopPanel != null)
+            {
+                transform.SetParent(shopPanel, false);
+                ResetForParent(shopPanel);
+            }
 
             var shopItem = GetComponent<ShopItem>();
-            if (shopItem != null) shopItem.bought = false;
+            if (shopItem != null)
+                shopItem.bought = false;
+
+            // se quiser que a carta suma da mão (venda destrói mesmo)
+            Destroy(gameObject);
+        }
+
+    }
+
+    // ========================
+    //  HELPER DE POSICIONAMENTO
+    // ========================
+    private void ResetForParent(Transform parent)
+    {
+        var rt = transform as RectTransform;
+        var prt = parent as RectTransform;
+
+        rt.localScale = Vector3.one;
+        rt.localRotation = Quaternion.identity;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+
+        // se o pai usa LayoutGroup, ele cuida sozinho
+        bool usesLayout = prt && prt.GetComponent<LayoutGroup>() != null;
+
+        if (!usesLayout)
+        {
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.offsetMin = rt.offsetMax = Vector2.zero;
+            rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = new Vector2(75, 90); // mesmo tamanho do prefab
         }
     }
-    #endregion
+
 }

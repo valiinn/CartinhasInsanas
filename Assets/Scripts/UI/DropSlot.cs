@@ -1,6 +1,6 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI; // Necess·rio para GridLayoutGroup
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 public class DropSlot : MonoBehaviour, IDropHandler
@@ -18,7 +18,6 @@ public class DropSlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        // 1) valida carta arrastada
         if (eventData.pointerDrag == null) return;
 
         var draggedGo = eventData.pointerDrag;
@@ -28,47 +27,45 @@ public class DropSlot : MonoBehaviour, IDropHandler
         var slotRT = (RectTransform)transform;
         var draggedRT = draggedGo.GetComponent<RectTransform>();
 
-        // 2) se j· est· no mesmo slot, n„o faz nada
+        // Se j√° est√° no mesmo slot, nada a fazer
         if (draggedRT.parent == slotRT) return;
 
-        // 3) encontra a carta que j· ocupa este slot (em profundidade), ignorando a "dragged"
+        // Procura ocupante atual (outra carta neste slot)
         var occupyingRT = FindOccupyingCardRT(slotRT, draggedGo);
 
-        // 4) se tem ocupante
         if (occupyingRT != null)
         {
             if (!allowSwap)
             {
-                // recusa swap -> OnEndDrag do Card devolve
+                // se n√£o pode trocar, OnEndDrag do Card deve devolver
                 return;
             }
 
-            // destino do ocupante È de onde a dragged saiu
+            // destino do ocupante √© de onde a dragged saiu
             Transform targetParent = draggedCard.OriginalParent;
             if (targetParent == null) return;
 
-            // move ocupante para o parent original da dragged
             occupyingRT.SetParent(targetParent, false);
             AjustarLayout(occupyingRT, targetParent as RectTransform);
         }
 
-        // 5) coloca a dragged neste slot
+        // move carta arrastada para este slot
         draggedRT.SetParent(slotRT, false);
         AjustarLayout(draggedRT, slotRT);
+
+        // atualiza refer√™ncia no Card
+        draggedCard.OriginalParent = slotRT;
     }
 
-    // Procura por profundidade um descendente do slot que tenha "Card",
-    // ignorando "exclude" (a prÛpria carta que est· sendo arrastada).
     private RectTransform FindOccupyingCardRT(Transform slot, GameObject exclude)
     {
-        // primeiro passa r·pida pelos filhos diretos
         for (int i = 0; i < slot.childCount; i++)
         {
             var ch = slot.GetChild(i);
             if (ch == null || ch.gameObject == exclude) continue;
             if (ch.GetComponent<Card>() != null) return ch as RectTransform;
         }
-        // depois procura em profundidade
+
         var cards = slot.GetComponentsInChildren<Card>(true);
         foreach (var c in cards)
         {
@@ -80,33 +77,41 @@ public class DropSlot : MonoBehaviour, IDropHandler
     }
 
     private void AjustarLayout(RectTransform rect, RectTransform parentRect)
+{
+    rect.localScale = Vector3.one;
+    rect.localRotation = Quaternion.identity;
+    rect.pivot = new Vector2(0.5f, 0.5f);
+
+    var parentSlot = parentRect ? parentRect.GetComponent<DropSlot>() : null;
+    bool shouldFill = parentSlot != null && parentSlot.fillParent;
+
+    if (shouldFill)
     {
+        // Carta ocupa todo o slot
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = new Vector2(parentSlot.padding.x, parentSlot.padding.y);
+        rect.offsetMax = new Vector2(-parentSlot.padding.x, -parentSlot.padding.y);
+        rect.anchoredPosition = Vector2.zero;
         rect.localScale = Vector3.one;
-        rect.localRotation = Quaternion.identity;
-        rect.pivot = new Vector2(0.5f, 0.5f);
+    }
+    else
+    {
+        // Parent comum (m√£o, loja, etc)
+        rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+        rect.anchoredPosition = Vector2.zero;
+        rect.localScale = Vector3.one;
 
-        // se o parent È um DropSlot e fillParent = true, preenche com padding
-        var parentSlot = parentRect ? parentRect.GetComponent<DropSlot>() : null;
-        bool shouldFill = parentSlot != null && parentSlot.fillParent;
-
-        if (shouldFill)
+        // Se o pai usa GridLayoutGroup ou LayoutGroup, deixa o layout controlar o tamanho
+        var layout = parentRect.GetComponent<LayoutGroup>();
+        if (layout == null)
         {
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = new Vector2(parentSlot.padding.x, parentSlot.padding.y);
-            rect.offsetMax = new Vector2(-parentSlot.padding.x, -parentSlot.padding.y);
-            rect.anchoredPosition = Vector2.zero;
-        }
-        else
-        {
-            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = Vector2.zero;
-
-            var grid = parentRect && parentRect.parent
-                ? parentRect.parent.GetComponent<GridLayoutGroup>()
-                : null;
-
-            rect.sizeDelta = grid ? grid.cellSize : parentRect.rect.size;
+            // Define tamanho padr√£o do card (sem layout)
+            rect.sizeDelta = new Vector2(75, 90); // ou o tamanho padr√£o do seu prefab
         }
     }
+}
+
 }

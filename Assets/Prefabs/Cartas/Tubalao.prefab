@@ -94,12 +94,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nome: Tubalao
-  vida: 10
-  dano: 5
   custo: 3
   raridade: 2
-  vidaText: {fileID: 0}
-  danoText: {fileID: 0}
   nomeText: {fileID: 0}
   custoText: {fileID: 1109792977115036592}
   raridadeText: {fileID: 0}
@@ -148,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4f90ec1ac0bf8408a89d8b5f784684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 3
   attackCooldown: 1.2
   projectileSpeed: 400
   projectileSpawnPoint: {fileID: 0}
