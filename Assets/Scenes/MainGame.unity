@@ -1804,9 +1804,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopPanel: {fileID: 747215541}
-  boardPanel: {fileID: 132390681}
   handPanel: {fileID: 1966492193}
+  draggingLayer: {fileID: 0}
+  previewLayer: {fileID: 0}
   playerStats: {fileID: 1966830807}
+  maxHandSize: 7
   refreshButton: {fileID: 181860452}
   cardsPerRefresh: 5
   availableCards:
@@ -1829,7 +1831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f4638798d3d99a4da4861b04adca9e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPanel: {fileID: 747215541}
+  refundOnDelete: 1
+  playerStats: {fileID: 1966830807}
 --- !u!114 &747215547
 MonoBehaviour:
   m_ObjectHideFlags: 0
