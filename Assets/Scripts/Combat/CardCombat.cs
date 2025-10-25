@@ -1,13 +1,13 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CardHealth))]
 public class CardCombat : MonoBehaviour
 {
-    [Header("Combat stats")]
+    [Header("Combat Stats")]
     public int damage = 1;
     public float attackCooldown = 1.2f;
-    public float projectileSpeed = 400f;
+    public float projectileSpeed = 5f; // agora velocidade em unidades por segundo
     public Transform projectileSpawnPoint;
 
     [HideInInspector] public bool IsAlive = true;

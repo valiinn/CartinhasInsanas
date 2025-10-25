@@ -12,8 +12,12 @@ public class CombatManager : MonoBehaviour
 
     [Header("Settings")]
     public int maxCardsPerBoard = 4;
-    public float fightDuration = 60f; // timeout safety
+    public float fightDuration = 60f;
     public GameObject projectilePrefab;
+
+    [Header("Projectile Layer & Parent")]
+    public string projectileLayerName = "Projectile";
+    public Transform projectileParent; // Canvas ou objeto específico para FX
 
     [HideInInspector]
     public bool inCombat = false;
@@ -21,12 +25,21 @@ public class CombatManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        // Cria um parent padrão se não foi setado
+        if (projectileParent == null)
+        {
+            GameObject fxParent = GameObject.Find("ProjectileCanvas");
+            if (fxParent == null)
+                fxParent = new GameObject("ProjectileCanvas");
+
+            projectileParent = fxParent.transform;
+        }
     }
 
     // 🔹 Chamado pelo botão
     public void StartCombatFromButton()
     {
-        // Só inicia se não estiver em combate
         if (!inCombat)
         {
             StartCombat();
@@ -38,14 +51,12 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    // 🔹 Método de iniciar combate (usado tanto por botão quanto internamente)
     public void StartCombat()
     {
         if (inCombat) return;
         StartCoroutine(CombatRoutine());
     }
 
-    // 🔹 (Opcional) Método pra encerrar combate via botão
     public void EndCombatFromButton()
     {
         StopAllCoroutines();
@@ -56,11 +67,8 @@ public class CombatManager : MonoBehaviour
     IEnumerator CombatRoutine()
     {
         inCombat = true;
-
-        // Desativa interações durante o combate (drag, etc)
         ToggleInputForAll(false);
 
-        // Manda todas as cartas iniciarem ataque
         var cardsA = GetActiveCardCombats(tabuleiroA);
         var cardsB = GetActiveCardCombats(tabuleiroB);
 
@@ -77,7 +85,6 @@ public class CombatManager : MonoBehaviour
         EndCombatLogic();
     }
 
-    // 🔹 Lógica de fim do combate
     void EndCombatLogic()
     {
         foreach (var c in GetActiveCardCombats(tabuleiroA)) c.EndCombat();
@@ -91,15 +98,15 @@ public class CombatManager : MonoBehaviour
     public void SpawnProjectile(Vector3 spawnPos, Transform target, int damage, float speed)
     {
         if (projectilePrefab == null) return;
-        var projObj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity, transform);
+
+        var projObj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity, projectileParent);
+        projObj.layer = LayerMask.NameToLayer(projectileLayerName);
+
         var proj = projObj.GetComponent<Projectile>();
         if (proj != null)
-        {
             proj.Initialize(target, damage, speed);
-        }
     }
 
-    // Helpers
     public CardCombat[] GetActiveCardCombats(Transform board)
     {
         return board.GetComponentsInChildren<CardCombat>().Where(c => c != null && c.IsAlive).ToArray();
@@ -112,11 +119,9 @@ public class CombatManager : MonoBehaviour
 
     void ToggleInputForAll(bool enabled)
     {
-        // Aqui você pode desabilitar scripts de interação enquanto o combate acontece
-        // Exemplo: arraste todos objetos com "DragHandler" e desative-os aqui.
+        // Exemplo: desabilitar interação durante combate
     }
 
-    // 🔹 Checa se pode colocar carta no board (máx 4)
     public bool CanPlaceOnBoard(Transform board)
     {
         int count = board.GetComponentsInChildren<CardCombat>(true)

@@ -12,8 +12,8 @@ TagManager:
   - UI_Layer
   - Water
   - UI
-  - 
-  - 
+  - Projectiles
+  - Cards
   - 
   - 
   - 
@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Projectiles
+    uniqueID: 3370368715
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
