@@ -93,7 +93,6 @@ public class CombatManager : MonoBehaviour
         foreach (var c in GetActiveCardCombats(tabuleiroB)) c.EndCombat();
 
         // cura e revive todos os cards dos dois lados
-        ReviveAndHealBoard(tabuleiroA);
         ReviveAndHealBoard(tabuleiroB);
 
         ToggleInputForAll(true);
