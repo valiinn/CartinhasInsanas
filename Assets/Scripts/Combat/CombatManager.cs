@@ -85,14 +85,42 @@ public class CombatManager : MonoBehaviour
         EndCombatLogic();
     }
 
+    // ====== ALTERADO: agora revive e cura tudo ao fim da rodada ======
     void EndCombatLogic()
     {
+        // para ataques
         foreach (var c in GetActiveCardCombats(tabuleiroA)) c.EndCombat();
         foreach (var c in GetActiveCardCombats(tabuleiroB)) c.EndCombat();
+
+        // cura e revive todos os cards dos dois lados
+        ReviveAndHealBoard(tabuleiroA);
+        ReviveAndHealBoard(tabuleiroB);
 
         ToggleInputForAll(true);
         inCombat = false;
         Debug.Log("Combate encerrado!");
+    }
+    // ================================================================
+
+    // Chama ReviveAndHeal() em TODAS as cartas do board (inclusive desativadas)
+    private void ReviveAndHealBoard(Transform board)
+    {
+        if (board == null) return;
+
+        var allHealth = board.GetComponentsInChildren<CardHealth>(true); // includeInactive = true
+        foreach (var ch in allHealth)
+        {
+            if (ch == null) continue;
+            ch.ReviveAndHeal(); // ← requer o método em CardHealth.cs
+        }
+
+        // também garante que o CardCombat volte à vida
+        var allCombat = board.GetComponentsInChildren<CardCombat>(true);
+        foreach (var cc in allCombat)
+        {
+            if (cc == null) continue;
+            cc.IsAlive = true;
+        }
     }
 
     public void SpawnProjectile(Vector3 spawnPos, Transform target, int damage, float speed)
