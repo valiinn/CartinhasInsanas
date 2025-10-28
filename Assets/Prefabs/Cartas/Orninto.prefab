@@ -146,9 +146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4f90ec1ac0bf8408a89d8b5f784684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 2
   attackCooldown: 2
-  projectileSpeed: 1
+  projectileSpeed: 4
   projectileSpawnPoint: {fileID: 0}
   IsAlive: 1
 --- !u!61 &-3237636094940446105

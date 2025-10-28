@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b9fc7c61bb41a4daa72517ea06e2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 5
+  maxHp: 20
 --- !u!114 &8511906834026363802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,10 +146,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4f90ec1ac0bf8408a89d8b5f784684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  attackCooldown: 2
-  projectileSpeed: 1
+  damage: 2
+  attackCooldown: 1
+  projectileSpeed: 5
   projectileSpawnPoint: {fileID: 0}
+  projectileCount: 3
+  uniqueTargets: 1
   IsAlive: 1
 --- !u!61 &5487738641374402707
 BoxCollider2D:

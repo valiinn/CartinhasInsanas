@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   attackCooldown: 2
-  projectileSpeed: 1
+  projectileSpeed: 4
   projectileSpawnPoint: {fileID: 0}
   IsAlive: 1
 --- !u!61 &7658402399283483131
