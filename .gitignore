@@ -1,6 +1,8 @@
-# =============== #
-# Unity generated #
-# =============== #
+# ==============================
+# UNITY PROJECT IGNORE TEMPLATE
+# ==============================
+
+# --- Unity generated ---
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -9,10 +11,52 @@
 [Ll]ogs/
 [Mm]emoryCaptures/
 UserSettings/
+Packages/com.unity.collab-proxy/
+BuildReport/
 
-# ============ #
-# OS generated #
-# ============ #
+# Evita arquivos de cache e compilação local
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# --- TextMeshPro ---
+# Ignora assets gerados automaticamente pelo TMP (evita merge conflicts)
+Assets/TextMesh*Pro/Examples*/
+Assets/TextMesh*Pro/Resources/Fonts & Materials/*.asset
+Assets/TextMesh*Pro/Resources/Fonts & Materials/*.png
+Assets/TextMesh*Pro/Resources/Fonts & Materials/*.fnt
+
+# (mantém apenas os .meta para Unity não reclamar)
+!Assets/TextMesh*Pro/**/*.meta
+
+# --- Auto-generated assets ---
+*.unitypackage
+*.apk
+*.aab
+*.bundle
+*.app
+*.exe
+*.dll
+*.so
+*.dylib
+
+# --- Lighting / Baked data ---
+Lightmap-*
+LightingData.asset
+ReflectionProbe-*
+OcclusionCullingData.asset
+GICache/
+
+# --- Crash / Logs / Memory ---
+sysinfo.txt
+*.stacktrace
+*.log
+
+# --- OS generated files ---
 .DS_Store
 .DS_Store?
 ._*
@@ -20,12 +64,12 @@ UserSettings/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# =========== #
-# VisualStudio #
-# =========== #
+# --- Visual Studio / Rider ---
 .vs/
 .vscode/
+.idea/
 *.csproj
 *.unityproj
 *.sln
@@ -33,25 +77,14 @@ Thumbs.db
 *.tmp
 *.user
 *.userprefs
-*.pidb
-*.booproj
-*.svd
-*.pdb
-*.opendb
-*.VC.db
-
-# ========== #
-# Builds     #
-# ========== #
-*.apk
-*.aab
-*.unitypackage
-
-# ======== #
-# Crashlytics #
-# ======== #
-crashlytics-build.properties
-
-# Rider #
-.idea/
 *.sln.iml
+
+# --- Cache and settings ---
+[Bb]uildReport/
+ProjectSettings/EditorBuildSettings.asset
+ProjectSettings/GraphicsSettings.asset
+ProjectSettings/QualitySettings.asset
+ProjectSettings/AudioManager.asset
+
+# --- Collab and cloud files ---
+*.collabignore
