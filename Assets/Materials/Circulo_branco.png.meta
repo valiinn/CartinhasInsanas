@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4077cf609973e574cbe86ccb0d322903
+guid: 9bdf0ff9898e29540b4e4d59779f74b7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7764452301824588435
-    second: "po\xE7\xE3o_0"
+      213: 2803332233848448295
+    second: Circulo_branco_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "po\xE7\xE3o_0"
+      name: Circulo_branco_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 0
-        width: 1019
-        height: 1019
+        x: 56
+        y: 52
+        width: 852
+        height: 852
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d650842f4cf1f3490800000000000000
-      internalID: -7764452301824588435
+      spriteID: 72560f160df67e620800000000000000
+      internalID: 2803332233848448295
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      "po\xE7\xE3o_0": -7764452301824588435
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

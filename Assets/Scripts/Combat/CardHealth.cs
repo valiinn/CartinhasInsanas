@@ -2,8 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
+
 public class CardHealth : MonoBehaviour
+
 {
+
+    [Header("HP Colors")]
+    public Color fullHpColor = Color.green;
+    public Color halfHpColor = new Color(1f, 0.65f, 0f); // laranja
+    public Color lowHpColor = Color.red;
+
     [Header("Vida")]
     public int maxHp = 5;
 
@@ -57,11 +66,20 @@ public class CardHealth : MonoBehaviour
         {
             float fill = (float)hp / maxHp;
             hpBar.fillAmount = Mathf.Clamp01(fill);
+
+            // Muda a cor de acordo com a vida
+            if (fill > 0.5f)
+                hpBar.color = fullHpColor;
+            else if (fill > 0.25f)
+                hpBar.color = halfHpColor;
+            else
+                hpBar.color = lowHpColor;
         }
 
         if (hpText != null)
         {
-            hpText.text = $"{hp}/{maxHp}";
+            hpText.text = hp.ToString();
         }
+
     }
 }
