@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Circulo_branco_0: 2803332233848448295
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

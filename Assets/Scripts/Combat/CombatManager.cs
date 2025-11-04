@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class CombatManager : MonoBehaviour
 {
@@ -43,11 +44,11 @@ public class CombatManager : MonoBehaviour
         if (!inCombat)
         {
             StartCombat();
-            Debug.Log("Combate iniciado pelo botão!");
+            Notify.Success("Combate iniciado pelo botão!");
         }
         else
         {
-            Debug.LogWarning("Combate já está em andamento.");
+            Notify.Error("Combate já está em andamento.");
         }
     }
 
@@ -97,7 +98,7 @@ public class CombatManager : MonoBehaviour
 
         ToggleInputForAll(true);
         inCombat = false;
-        Debug.Log("Combate encerrado!");
+        Notify.Info("Combate encerrado!");
     }
     // ================================================================
 

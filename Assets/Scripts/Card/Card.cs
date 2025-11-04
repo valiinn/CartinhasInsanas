@@ -232,7 +232,7 @@ public class Card : MonoBehaviour,
 
             if (handPanel.childCount >= maxHandSize)
             {
-                Debug.Log("Mão cheia! Não é possível comprar mais cartas.");
+                Notify.Warning("Mão cheia! Não é possível comprar mais cartas.");
                 return;
             }
 
@@ -246,7 +246,7 @@ public class Card : MonoBehaviour,
             }
             else
             {
-                Debug.Log("Ouro insuficiente para comprar esta carta!");
+                Notify.Warning("Ouro insuficiente para comprar esta carta!");
             }
         }
         // Venda
