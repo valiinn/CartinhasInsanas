@@ -3446,6 +3446,10 @@ MonoBehaviour:
   centerScale: 1.2
   sideScale: 0.9
   smoothSpeed: 8
+  stageManager: {fileID: 1966830809}
+  stageCounter: 0
+  bossCounter: 0
+  advanceStageOnEachBattle: 1
 --- !u!1 &1344274018
 GameObject:
   m_ObjectHideFlags: 0
@@ -5304,6 +5308,7 @@ GameObject:
   - component: {fileID: 1966830806}
   - component: {fileID: 1966830807}
   - component: {fileID: 1966830808}
+  - component: {fileID: 1966830809}
   m_Layer: 5
   m_Name: GameManager
   m_TagString: Untagged
@@ -5365,6 +5370,31 @@ MonoBehaviour:
   projectileParent: {fileID: 1283587610}
   phaseManager: {fileID: 1318603744}
   inCombat: 0
+--- !u!114 &1966830809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966830805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7634d962b6fb8c245a37db906a5abe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBoard: {fileID: 1505606565}
+  enemySlots: []
+  stages:
+  - {fileID: 11400000, guid: 974292cdb44e4e0418bd99409bf44be2, type: 2}
+  - {fileID: 11400000, guid: 8b6a260c753ac78478fbbe660403701d, type: 2}
+  - {fileID: 11400000, guid: 34b73a6d7c83f0f4086f4c50c61b4b92, type: 2}
+  - {fileID: 11400000, guid: 44e1cfe670e5ad840ad8c0d9d3ac259d, type: 2}
+  - {fileID: 11400000, guid: 4084079691fc49e44a75f2dcaf148d79, type: 2}
+  bossStages:
+  - {fileID: 11400000, guid: e2291222c74e3b14583d482a05007d76, type: 2}
+  currentStage: 0
+  lockEnemyInput: 1
+  randomSeed: 1
 --- !u!1 &1983033054
 GameObject:
   m_ObjectHideFlags: 0

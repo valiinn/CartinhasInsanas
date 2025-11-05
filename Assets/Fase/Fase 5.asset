@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f072028e6cd39f745ae67ec288c0ff51, type: 3}
+  m_Name: Fase 5
+  m_EditorClassIdentifier: 
+  enemies:
+  - enemyPrefab: {fileID: 747456636909858010, guid: 59a9fc2c794af074887705b37a327eed, type: 3}
+    slotIndex: 0
+  - enemyPrefab: {fileID: 747456636909858010, guid: 62ba528a42f5b5247a497a2b7bc38273, type: 3}
+    slotIndex: 0
+  - enemyPrefab: {fileID: 747456636909858010, guid: 62ba528a42f5b5247a497a2b7bc38273, type: 3}
+    slotIndex: 0

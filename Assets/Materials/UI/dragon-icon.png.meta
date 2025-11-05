@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dragon-icon_0: -6245646047788366494
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -16,7 +16,7 @@ public class PhaseManager : MonoBehaviour
 {
     [Header("Phase Setup")]
     public int totalPhases = 12;
-    public PhaseIcon[] phaseIcons; // ícones padrão (Battle, Boss, Merchant, Event)
+    public PhaseIcon[] phaseIcons;
 
     [Header("UI References")]
     public ScrollRect scrollRect;
@@ -32,6 +32,14 @@ public class PhaseManager : MonoBehaviour
 
     [Header("Animation Settings")]
     public float smoothSpeed = 8f;
+
+    // ================= Integração com StageManager (sem autostart) ================
+    [Header("Stages")]
+    [SerializeField] private StageManager stageManager;   // arraste no Inspector
+    [SerializeField] private int stageCounter = 0;        // próximo stage normal a carregar em Battle
+    [SerializeField] private int bossCounter = 0;         // qual boss usar na fase Boss
+    [SerializeField] private bool advanceStageOnEachBattle = true; // prepara próximo após carregar
+    // ==============================================================================
 
     private readonly PhaseType[] pattern = {
         PhaseType.Battle, PhaseType.Battle, PhaseType.Battle,
@@ -51,16 +59,14 @@ public class PhaseManager : MonoBehaviour
 
     IEnumerator InitCenter()
     {
-        // aguarda 1 frame pro layout calcular tudo
-        yield return null;
+        yield return null; // espera layout/anchors atualizarem
         LayoutRebuilder.ForceRebuildLayoutImmediate(phaseContainer.GetComponent<RectTransform>());
-
         SetCenterNormalizedImmediate(currentPhaseIndex);
+        LoadPhase(); // só carrega stage/boss; quem inicia combate é seu botão Fight
     }
 
     void Update()
     {
-        // suaviza rolagem a cada frame
         if (scrollRect != null)
         {
             float cur = scrollRect.horizontalNormalizedPosition;
@@ -68,11 +74,12 @@ public class PhaseManager : MonoBehaviour
             scrollRect.horizontalNormalizedPosition = next;
         }
 
+        // atalho opcional pra testar
         if (Input.GetKeyDown(KeyCode.N))
             NextPhase();
     }
 
-    // 🔹 Gera as fases dinamicamente com base no padrão
+    // Cria a sequência visual
     void GeneratePhases()
     {
         foreach (Transform child in phaseContainer)
@@ -83,17 +90,15 @@ public class PhaseManager : MonoBehaviour
         for (int i = 0; i < totalPhases; i++)
         {
             PhaseType type = pattern[i % pattern.Length];
-
             GameObject iconObj = Instantiate(phaseIconPrefab, phaseContainer);
             Image img = iconObj.GetComponent<Image>();
             img.sprite = GetSpriteForType(type);
             img.color = futureColor;
-
             phaseIconsInUI.Add(img);
         }
     }
 
-    // 🔹 Atualiza cor e tamanho dos ícones
+    // Atualiza cores/tamanhos
     void UpdateUI(bool instant = false)
     {
         for (int i = 0; i < phaseIconsInUI.Count; i++)
@@ -117,7 +122,7 @@ public class PhaseManager : MonoBehaviour
         }
     }
 
-    // 🔹 Avança para a próxima fase
+    // Próxima fase
     public void NextPhase()
     {
         if (phaseIconsInUI.Count == 0) return;
@@ -126,16 +131,71 @@ public class PhaseManager : MonoBehaviour
 
         UpdateUI();
         CenterOnCurrentPhase();
-        LoadPhase();
+        LoadPhase(); // só spawna inimigos; nada de iniciar/encerrar combate aqui
     }
 
+    // Lógica ao entrar na fase atual
     void LoadPhase()
     {
         var type = pattern[currentPhaseIndex % pattern.Length];
         Debug.Log($"Entrando na fase {currentPhaseIndex + 1}: {type}");
+
+        if (stageManager == null) return;
+
+        if (type == PhaseType.Battle)
+        {
+            int totalStages = Mathf.Max(1, stageManager.stages.Count);
+            int toLoad = Mathf.Clamp(stageCounter, 0, totalStages - 1);
+
+            // Carrega INIMIGOS da batalha (sem iniciar combate)
+            stageManager.SetStage(toLoad);
+            Debug.Log($"[PhaseManager] Carregando Stage {toLoad} (sem iniciar combate).");
+
+            // Prepara QUAL será o próximo stage normal
+            if (advanceStageOnEachBattle && totalStages > 0)
+            {
+                stageCounter = (toLoad + 1) % totalStages;
+                Debug.Log($"[PhaseManager] Próximo Stage preparado = {stageCounter}.");
+            }
+        }
+        else if (type == PhaseType.Boss)
+        {
+            int totalBoss = (stageManager.bossStages != null) ? stageManager.bossStages.Count : 0;
+            Debug.Log($"[PhaseManager] Entrou em BOSS. bossStages.Count = {totalBoss}, bossCounter = {bossCounter}");
+
+            if (totalBoss > 0)
+            {
+                int toLoadBoss = Mathf.Clamp(bossCounter, 0, totalBoss - 1);
+                // carrega no próximo frame para evitar corrida com scroll/layout/limpezas
+                StartCoroutine(LoadBossDeferred(toLoadBoss, totalBoss));
+            }
+            else
+            {
+                Debug.LogWarning("[PhaseManager] Não há bossStages configurados no StageManager.");
+            }
+        }
+        else
+        {
+            // Merchant/Event: não iniciamos nem paramos combate aqui
+        }
     }
 
-    // 🔹 Busca o sprite correspondente ao tipo
+    // Delay de 1 frame para spawnar boss com segurança
+    IEnumerator LoadBossDeferred(int toLoadBoss, int totalBoss)
+    {
+        yield return null;
+
+        if (stageManager != null)
+        {
+            stageManager.SetBossStage(toLoadBoss);
+            Debug.Log($"[PhaseManager] Carregado BOSS Stage {toLoadBoss} (deferred).");
+
+            // prepara próximo boss (opcional)
+            bossCounter = (toLoadBoss + 1) % Mathf.Max(1, totalBoss);
+        }
+    }
+
+    // Helpers de UI/scroll
     Sprite GetSpriteForType(PhaseType type)
     {
         foreach (var p in phaseIcons)
@@ -144,7 +204,6 @@ public class PhaseManager : MonoBehaviour
         return null;
     }
 
-    // 🔹 Centraliza o ícone atual (Lerp suave)
     void CenterOnCurrentPhase()
     {
         scrollLerpTarget = ComputeCenterNormalized(currentPhaseIndex);
@@ -157,7 +216,6 @@ public class PhaseManager : MonoBehaviour
         scrollLerpTarget = norm;
     }
 
-    // 🔹 Cálculo robusto pra centralizar o item pelo ScrollRect
     float ComputeCenterNormalized(int index)
     {
         if (scrollRect == null || phaseContainer == null || phaseIconsInUI.Count == 0)
@@ -184,5 +242,28 @@ public class PhaseManager : MonoBehaviour
         float normalized = desiredLeft / (contentW - viewportW);
 
         return Mathf.Clamp01(normalized);
+    }
+
+    // Helpers públicos (se quiser controlar por botões/UI)
+    public void SetStageManager(StageManager sm) => stageManager = sm;
+
+    public void SetStageCounter(int index, bool clampToAvailable = true)
+    {
+        if (!clampToAvailable || stageManager == null || stageManager.stages.Count == 0)
+            stageCounter = index;
+        else
+            stageCounter = Mathf.Clamp(index, 0, stageManager.stages.Count - 1);
+
+        Debug.Log($"[PhaseManager] stageCounter definido para {stageCounter}.");
+    }
+
+    public void SetBossCounter(int index, bool clampToAvailable = true)
+    {
+        if (!clampToAvailable || stageManager == null || stageManager.bossStages.Count == 0)
+            bossCounter = index;
+        else
+            bossCounter = Mathf.Clamp(index, 0, stageManager.bossStages.Count - 1);
+
+        Debug.Log($"[PhaseManager] bossCounter definido para {bossCounter}.");
     }
 }
