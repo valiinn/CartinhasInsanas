@@ -42,6 +42,8 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         healthBar.value = currentHealth;
 
+        Debug.Log("O jogador recebeu " + damage + " de dano. Vida atual: " + currentHealth);
+
         if (currentHealth <= 0)
         {
             Die();
