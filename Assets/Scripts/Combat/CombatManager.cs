@@ -17,7 +17,7 @@ public class CombatManager : MonoBehaviour
 
     [Header("Projectile Layer & Parent")]
     public string projectileLayerName = "Projectile";
-    public Transform projectileParent; // Canvas ou objeto específico para FX
+    public Transform projectileParent;
 
     [Header("Referências Externas")]
     public PhaseManager phaseManager; // vincula no Inspector
@@ -25,11 +25,13 @@ public class CombatManager : MonoBehaviour
     [HideInInspector]
     public bool inCombat = false;
 
+    [Header("Reward System")]
+    public RewardSystem rewardSystem;
+
     void Awake()
     {
         Instance = this;
 
-        // Cria um parent padrão se não foi setado
         if (projectileParent == null)
         {
             GameObject fxParent = GameObject.Find("ProjectileCanvas");
@@ -78,6 +80,7 @@ public class CombatManager : MonoBehaviour
         foreach (var c in cardsB) c.BeginCombat(tabuleiroA);
 
         float timer = 0f;
+
         while (timer < fightDuration && BothSidesHaveAlive(tabuleiroA, tabuleiroB))
         {
             timer += Time.deltaTime;
@@ -114,11 +117,47 @@ public class CombatManager : MonoBehaviour
         foreach (var c in GetActiveCardCombats(tabuleiroA)) c.EndCombat();
         foreach (var c in GetActiveCardCombats(tabuleiroB)) c.EndCombat();
 
+        bool enemyAlive = GetActiveCardCombats(tabuleiroA).Length > 0;
+        bool playerAlive = GetActiveCardCombats(tabuleiroB).Length > 0;
+
+        if (playerAlive && !enemyAlive)
+        {
+            Debug.Log("✅ Jogador venceu o combate!");
+            GiveRewardToPlayer(); // chama o sistema de recompensa
+        }
+        else if (!playerAlive && enemyAlive)
+        {
+            Debug.Log("❌ Jogador perdeu o combate!");
+        }
+        else
+        {
+            Debug.Log("⚖️ Empate ou tempo acabou!");
+        }
+
         ReviveAndHealBoard(tabuleiroB);
+        ReviveAndHealBoard(tabuleiroA);
 
         ToggleInputForAll(true);
         inCombat = false;
         Notify.Info("Combate encerrado!");
+    }
+
+    // ✅ única forma correta de dar recompensa
+    void GiveRewardToPlayer()
+    {
+        if (rewardSystem == null)
+        {
+            rewardSystem = FindObjectOfType<RewardSystem>();
+        }
+
+        if (rewardSystem != null)
+        {
+            rewardSystem.GiveWinReward();
+        }
+        else
+        {
+            Debug.LogWarning("RewardSystem não encontrado na cena!");
+        }
     }
 
     private void ReviveAndHealBoard(Transform board)
@@ -154,7 +193,7 @@ public class CombatManager : MonoBehaviour
 
     void ToggleInputForAll(bool enabled)
     {
-        // Aqui você pode travar ou liberar cliques durante o combate
+        // Aqui você pode desabilitar botões/interação durante o combate, se quiser
     }
 
     public bool CanPlaceOnBoard(Transform board)
@@ -164,3 +203,4 @@ public class CombatManager : MonoBehaviour
         return count < maxCardsPerBoard;
     }
 }
+
