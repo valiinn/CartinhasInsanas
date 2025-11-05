@@ -1,100 +1,88 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CardHealth))]
 public class CardCombat : MonoBehaviour
 {
-    [Header("Combat Stats")]
+    [Header("Atributos de Combate")]
     public int damage = 1;
-    public float attackCooldown = 1.2f;
-    public float projectileSpeed = 5f;
-    public Transform projectileSpawnPoint;
+    public float attackInterval = 1.5f;
+    public float projectileSpeed = 6f;
 
-    [Header("Multi-shot Settings")]
-    [Tooltip("Quantos projéteis essa carta dispara por ataque.")]
-    public int projectileCount = 1;
+    [Header("Projétil da Carta")]
+    [Tooltip("Projétil específico desta carta (opcional). Se vazio, usará o padrão do CombatManager.")]
+    public GameObject projectilePrefab;
 
-    [Tooltip("Se true, evita disparar 2 projéteis no mesmo alvo.")]
-    public bool uniqueTargets = true;
+    [HideInInspector]
+    public bool IsAlive = true;
 
-    [HideInInspector] public bool IsAlive = true;
+    private Transform currentTarget;
+    private Coroutine attackLoop;
 
-    private Coroutine attackRoutine;
-    private Transform enemyBoard;
-
-    public void BeginCombat(Transform opposingBoard)
+    public void BeginCombat(Transform enemyBoard)
     {
-        enemyBoard = opposingBoard;
-        IsAlive = true;
-
-        if (attackRoutine != null)
-            StopCoroutine(attackRoutine);
-
-        attackRoutine = StartCoroutine(AttackLoop());
+        if (!IsAlive) return;
+        currentTarget = GetRandomTarget(enemyBoard);
+        if (currentTarget != null)
+            attackLoop = StartCoroutine(AttackLoop());
     }
 
     public void EndCombat()
     {
-        if (attackRoutine != null)
-            StopCoroutine(attackRoutine);
-
-        attackRoutine = null;
+        if (attackLoop != null)
+            StopCoroutine(attackLoop);
     }
 
-    IEnumerator AttackLoop()
+    private IEnumerator AttackLoop()
     {
-        yield return new WaitForSeconds(Random.Range(0f, 0.3f));
-
-        while (IsAlive && CombatManager.Instance != null && CombatManager.Instance.inCombat)
+        while (IsAlive && currentTarget != null)
         {
-            FireProjectiles();
-            yield return new WaitForSeconds(attackCooldown);
+            yield return new WaitForSeconds(attackInterval);
+            FireProjectile();
         }
     }
 
-    void FireProjectiles()
+    private void FireProjectile()
     {
-        if (enemyBoard == null) return;
+        if (currentTarget == null || !currentTarget.gameObject.activeInHierarchy)
+            return;
 
-        var enemyCards = new List<CardCombat>(enemyBoard.GetComponentsInChildren<CardCombat>());
-        enemyCards.RemoveAll(c => c == null || !c.IsAlive);
+        // Escolhe o projétil da carta ou o global
+        GameObject prefab = projectilePrefab != null
+            ? projectilePrefab
+            : CombatManager.Instance != null && CombatManager.Instance.projectileParent != null
+                ? Resources.Load<GameObject>("DefaultProjectile") // opcional: tenta carregar um placeholder
+                : null;
 
-        if (enemyCards.Count == 0) return;
-
-        // Embaralha lista de inimigos pra aleatoriedade
-        for (int i = 0; i < enemyCards.Count; i++)
+        if (prefab == null)
         {
-            var temp = enemyCards[i];
-            int randomIndex = Random.Range(i, enemyCards.Count);
-            enemyCards[i] = enemyCards[randomIndex];
-            enemyCards[randomIndex] = temp;
+            Debug.LogWarning($"{name} tentou atacar mas não tem projétil definido nem padrão encontrado.");
+            return;
         }
 
-        int shots = Mathf.Min(projectileCount, enemyCards.Count);
+        Vector3 spawnPos = transform.position + Vector3.up * 0.4f;
 
-        for (int i = 0; i < shots; i++)
+        var projObj = Instantiate(prefab, spawnPos, Quaternion.identity);
+        var proj = projObj.GetComponent<Projectile>();
+
+        if (proj != null)
         {
-            Transform target;
-
-            if (uniqueTargets)
-                target = enemyCards[i].transform; // sem repetir
-            else
-                target = enemyCards[Random.Range(0, enemyCards.Count)].transform; // pode repetir
-
-            SpawnProjectileAt(target);
+            proj.Initialize(currentTarget, damage, projectileSpeed);
         }
     }
 
-    void SpawnProjectileAt(Transform target)
+    private Transform GetRandomTarget(Transform enemyBoard)
     {
-        Vector3 spawnPos = projectileSpawnPoint != null ? projectileSpawnPoint.position : transform.position;
-        CombatManager.Instance.SpawnProjectile(spawnPos, target, damage, projectileSpeed);
+        if (enemyBoard == null) return null;
+
+        var enemies = enemyBoard.GetComponentsInChildren<CardCombat>();
+        if (enemies.Length == 0) return null;
+
+        return enemies[Random.Range(0, enemies.Length)].transform;
     }
 
     public void OnDie()
     {
         IsAlive = false;
-        EndCombat();
+        gameObject.SetActive(false);
     }
 }

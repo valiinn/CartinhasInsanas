@@ -15,7 +15,12 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float rotationOffset = -90f;
 
     [Tooltip("Duração da animação de spawn antes de começar a se mover")]
-    [SerializeField] private float spawnDelay = 0.25f;
+    [SerializeField] private float spawnDelay = 0.20f;
+
+    [Header("Estados do Animator")]
+    public string spawnState = "Projectile_Spawn";
+    public string trajectoryState = "Projectile_Trajectory";
+    public string impactState = "Projectile_Impact";
 
     public void Initialize(Transform target, int damage, float speed)
     {
@@ -24,7 +29,13 @@ public class Projectile : MonoBehaviour
         this.speed = speed;
         anim = GetComponent<Animator>();
 
-        // Garante que o projétil sempre renderize na layer correta
+        // Garante que o projétil fique dentro do parent certo (ProjectileCanvas)
+        if (CombatManager.Instance != null && CombatManager.Instance.projectileParent != null)
+        {
+            transform.SetParent(CombatManager.Instance.projectileParent, true);
+        }
+
+        // Define layer de renderização
         int layerIndex = LayerMask.NameToLayer("Projectiles");
         if (layerIndex >= 0 && layerIndex < 32)
         {
@@ -32,33 +43,27 @@ public class Projectile : MonoBehaviour
             foreach (Transform child in transform.GetComponentsInChildren<Transform>(true))
                 child.gameObject.layer = layerIndex;
         }
-        else
-        {
-            Debug.LogWarning("⚠️ Layer 'Projectiles' não encontrada, usando Default.");
-        }
 
-        // Inicia a sequência de spawn + voo
+        // Inicia a sequência de spawn e movimento
         StartCoroutine(SpawnAndFly());
     }
 
     private IEnumerator SpawnAndFly()
     {
-        // Toca a animação de surgimento (spawn)
         if (anim != null && anim.runtimeAnimatorController != null)
         {
-            anim.Play("Projectile_Spawn", 0, 0f);
+            if (anim.HasState(0, Animator.StringToHash(spawnState)))
+                anim.Play(spawnState, 0, 0f);
         }
 
-        // Espera a animação de spawn completar
         yield return new WaitForSeconds(spawnDelay);
 
-        // Começa o voo e transiciona para a animação de trajetória
         isFlying = true;
 
         if (anim != null && anim.runtimeAnimatorController != null)
         {
-            // Usa CrossFade ou SetTrigger para manter a animação em loop
-            anim.Play("Projectile_Trajectory", 0, 0f);
+            if (anim.HasState(0, Animator.StringToHash(trajectoryState)))
+                anim.Play(trajectoryState, 0, 0f);
         }
     }
 
@@ -67,15 +72,12 @@ public class Projectile : MonoBehaviour
         if (!isFlying || hasHit || target == null)
             return;
 
-        // Move em direção ao alvo
         Vector3 direction = (target.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
 
-        // Rotaciona o projétil para apontar na direção do movimento (com offset)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + rotationOffset;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // Checa colisão aproximada com o alvo
         if (Vector3.Distance(transform.position, target.position) < 0.25f)
         {
             hasHit = true;
@@ -85,23 +87,19 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator ImpactSequence()
     {
-        // Para o movimento do projétil
         isFlying = false;
 
-        // Toca animação de impacto
         if (anim != null && anim.runtimeAnimatorController != null)
         {
-            anim.Play("Projectile_Impact", 0, 0f);
+            if (anim.HasState(0, Animator.StringToHash(impactState)))
+                anim.Play(impactState, 0, 0f);
         }
 
-        // Aplica dano no alvo
         var health = target.GetComponent<CardHealth>();
         if (health != null)
             health.TakeDamage(damage);
 
-        // Espera a animação de impacto terminar
         yield return new WaitForSeconds(0.4f);
-
         Destroy(gameObject);
     }
 }

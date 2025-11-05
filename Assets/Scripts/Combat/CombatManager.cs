@@ -13,7 +13,6 @@ public class CombatManager : MonoBehaviour
     [Header("Settings")]
     public int maxCardsPerBoard = 4;
     public float fightDuration = 60f;
-    public GameObject projectilePrefab;
 
     [Header("Projectile Layer & Parent")]
     public string projectileLayerName = "Projectile";
@@ -92,7 +91,7 @@ public class CombatManager : MonoBehaviour
         if (playerAlive)
         {
             Debug.Log("Jogador venceu o combate.");
-            yield return new WaitForSeconds(2f); // pequeno delay antes da próxima fase
+            yield return new WaitForSeconds(2f);
 
             if (phaseManager != null)
             {
@@ -106,7 +105,6 @@ public class CombatManager : MonoBehaviour
         else
         {
             Debug.Log("Jogador perdeu o combate.");
-            // aqui você pode adicionar lógica de game over, se quiser
         }
     }
 
@@ -115,7 +113,6 @@ public class CombatManager : MonoBehaviour
         foreach (var c in GetActiveCardCombats(tabuleiroA)) c.EndCombat();
         foreach (var c in GetActiveCardCombats(tabuleiroB)) c.EndCombat();
 
-        // revive o inimigo (tabuleiro A)
         ReviveAndHealBoard(tabuleiroB);
 
         ToggleInputForAll(true);
@@ -141,18 +138,6 @@ public class CombatManager : MonoBehaviour
             if (cc == null) continue;
             cc.IsAlive = true;
         }
-    }
-
-    public void SpawnProjectile(Vector3 spawnPos, Transform target, int damage, float speed)
-    {
-        if (projectilePrefab == null) return;
-
-        var projObj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity, projectileParent);
-        projObj.layer = LayerMask.NameToLayer(projectileLayerName);
-
-        var proj = projObj.GetComponent<Projectile>();
-        if (proj != null)
-            proj.Initialize(target, damage, speed);
     }
 
     public CardCombat[] GetActiveCardCombats(Transform board)
