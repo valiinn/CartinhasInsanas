@@ -7,8 +7,8 @@ public class CombatManager : MonoBehaviour
     public static CombatManager Instance;
 
     [Header("Boards")]
-    public Transform tabuleiroA;
-    public Transform tabuleiroB;
+    public Transform tabuleiroA; // jogador
+    public Transform tabuleiroB; // inimigo
 
     [Header("Settings")]
     public int maxCardsPerBoard = 4;
@@ -17,16 +17,18 @@ public class CombatManager : MonoBehaviour
 
     [Header("Projectile Layer & Parent")]
     public string projectileLayerName = "Projectile";
-    public Transform projectileParent; // Canvas ou objeto específico para FX
+    public Transform projectileParent;
 
     [HideInInspector]
     public bool inCombat = false;
+
+    [Header("Reward System")]
+    public RewardSystem rewardSystem;
 
     void Awake()
     {
         Instance = this;
 
-        // Cria um parent padrão se não foi setado
         if (projectileParent == null)
         {
             GameObject fxParent = GameObject.Find("ProjectileCanvas");
@@ -37,7 +39,6 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    // 🔹 Chamado pelo botão
     public void StartCombatFromButton()
     {
         if (!inCombat)
@@ -76,6 +77,7 @@ public class CombatManager : MonoBehaviour
         foreach (var c in cardsB) c.BeginCombat(tabuleiroA);
 
         float timer = 0f;
+
         while (timer < fightDuration && BothSidesHaveAlive(tabuleiroA, tabuleiroB))
         {
             timer += Time.deltaTime;
@@ -85,35 +87,65 @@ public class CombatManager : MonoBehaviour
         EndCombatLogic();
     }
 
-    // ====== ALTERADO: agora revive e cura tudo ao fim da rodada ======
     void EndCombatLogic()
     {
-        // para ataques
         foreach (var c in GetActiveCardCombats(tabuleiroA)) c.EndCombat();
         foreach (var c in GetActiveCardCombats(tabuleiroB)) c.EndCombat();
 
-        // cura e revive todos os cards dos dois lados
+        bool enemyAlive = GetActiveCardCombats(tabuleiroA).Length > 0;
+        bool playerAlive = GetActiveCardCombats(tabuleiroB).Length > 0;
+
+        if (playerAlive && !enemyAlive)
+        {
+            Debug.Log("✅ Jogador venceu o combate!");
+            GiveRewardToPlayer(); // chama o sistema de recompensa
+        }
+        else if (!playerAlive && enemyAlive)
+        {
+            Debug.Log("❌ Jogador perdeu o combate!");
+        }
+        else
+        {
+            Debug.Log("⚖️ Empate ou tempo acabou!");
+        }
+
         ReviveAndHealBoard(tabuleiroB);
+        ReviveAndHealBoard(tabuleiroA);
 
         ToggleInputForAll(true);
         inCombat = false;
         Debug.Log("Combate encerrado!");
     }
-    // ================================================================
 
-    // Chama ReviveAndHeal() em TODAS as cartas do board (inclusive desativadas)
+    // ✅ única forma correta de dar recompensa
+    void GiveRewardToPlayer()
+    {
+        if (rewardSystem == null)
+        {
+            rewardSystem = FindObjectOfType<RewardSystem>();
+        }
+
+        if (rewardSystem != null)
+        {
+            rewardSystem.GiveWinReward();
+        }
+        else
+        {
+            Debug.LogWarning("RewardSystem não encontrado na cena!");
+        }
+    }
+
     private void ReviveAndHealBoard(Transform board)
     {
         if (board == null) return;
 
-        var allHealth = board.GetComponentsInChildren<CardHealth>(true); // includeInactive = true
+        var allHealth = board.GetComponentsInChildren<CardHealth>(true);
         foreach (var ch in allHealth)
         {
             if (ch == null) continue;
-            ch.ReviveAndHeal(); // ← requer o método em CardHealth.cs
+            ch.ReviveAndHeal();
         }
 
-        // também garante que o CardCombat volte à vida
         var allCombat = board.GetComponentsInChildren<CardCombat>(true);
         foreach (var cc in allCombat)
         {
@@ -146,7 +178,7 @@ public class CombatManager : MonoBehaviour
 
     void ToggleInputForAll(bool enabled)
     {
-        // Exemplo: desabilitar interação durante combate
+        // Aqui você pode desabilitar botões/interação durante o combate, se quiser
     }
 
     public bool CanPlaceOnBoard(Transform board)
@@ -156,3 +188,4 @@ public class CombatManager : MonoBehaviour
         return count < maxCardsPerBoard;
     }
 }
+
