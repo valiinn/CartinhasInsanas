@@ -7,8 +7,8 @@ public class CombatManager : MonoBehaviour
     public static CombatManager Instance;
 
     [Header("Boards")]
-    public Transform tabuleiroA;
-    public Transform tabuleiroB;
+    public Transform tabuleiroA; // inimigo
+    public Transform tabuleiroB; // jogador
 
     [Header("Settings")]
     public int maxCardsPerBoard = 4;
@@ -18,6 +18,9 @@ public class CombatManager : MonoBehaviour
     [Header("Projectile Layer & Parent")]
     public string projectileLayerName = "Projectile";
     public Transform projectileParent; // Canvas ou objeto específico para FX
+
+    [Header("Referências Externas")]
+    public PhaseManager phaseManager; // vincula no Inspector
 
     [HideInInspector]
     public bool inCombat = false;
@@ -37,13 +40,12 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    // 🔹 Chamado pelo botão
     public void StartCombatFromButton()
     {
         if (!inCombat)
         {
             StartCombat();
-            Debug.Log("Combate iniciado pelo botão!");
+            Debug.Log("Combate iniciado.");
         }
         else
         {
@@ -61,7 +63,7 @@ public class CombatManager : MonoBehaviour
     {
         StopAllCoroutines();
         EndCombatLogic();
-        Debug.Log("Combate encerrado manualmente pelo botão!");
+        Debug.Log("Combate encerrado manualmente.");
     }
 
     IEnumerator CombatRoutine()
@@ -83,37 +85,56 @@ public class CombatManager : MonoBehaviour
         }
 
         EndCombatLogic();
+
+        bool enemyAlive = GetActiveCardCombats(tabuleiroA).Length > 0;
+        bool playerAlive = GetActiveCardCombats(tabuleiroB).Length > 0;
+
+        if (playerAlive)
+        {
+            Debug.Log("Jogador venceu o combate.");
+            yield return new WaitForSeconds(2f); // pequeno delay antes da próxima fase
+
+            if (phaseManager != null)
+            {
+                phaseManager.NextPhase();
+            }
+            else
+            {
+                Debug.LogWarning("PhaseManager não atribuído no CombatManager.");
+            }
+        }
+        else
+        {
+            Debug.Log("Jogador perdeu o combate.");
+            // aqui você pode adicionar lógica de game over, se quiser
+        }
     }
 
-    // ====== ALTERADO: agora revive e cura tudo ao fim da rodada ======
     void EndCombatLogic()
     {
-        // para ataques
         foreach (var c in GetActiveCardCombats(tabuleiroA)) c.EndCombat();
         foreach (var c in GetActiveCardCombats(tabuleiroB)) c.EndCombat();
 
-        // cura e revive todos os cards dos dois lados
-        ReviveAndHealBoard(tabuleiroB);
+        // revive o inimigo (tabuleiro A)
+        ReviveAndHealBoard(tabuleiroA);
 
         ToggleInputForAll(true);
         inCombat = false;
-        Debug.Log("Combate encerrado!");
-    }
-    // ================================================================
 
-    // Chama ReviveAndHeal() em TODAS as cartas do board (inclusive desativadas)
+        Debug.Log("Combate encerrado.");
+    }
+
     private void ReviveAndHealBoard(Transform board)
     {
         if (board == null) return;
 
-        var allHealth = board.GetComponentsInChildren<CardHealth>(true); // includeInactive = true
+        var allHealth = board.GetComponentsInChildren<CardHealth>(true);
         foreach (var ch in allHealth)
         {
             if (ch == null) continue;
-            ch.ReviveAndHeal(); // ← requer o método em CardHealth.cs
+            ch.ReviveAndHeal();
         }
 
-        // também garante que o CardCombat volte à vida
         var allCombat = board.GetComponentsInChildren<CardCombat>(true);
         foreach (var cc in allCombat)
         {
@@ -136,7 +157,9 @@ public class CombatManager : MonoBehaviour
 
     public CardCombat[] GetActiveCardCombats(Transform board)
     {
-        return board.GetComponentsInChildren<CardCombat>().Where(c => c != null && c.IsAlive).ToArray();
+        return board.GetComponentsInChildren<CardCombat>()
+            .Where(c => c != null && c.IsAlive)
+            .ToArray();
     }
 
     bool BothSidesHaveAlive(Transform a, Transform b)
@@ -146,7 +169,7 @@ public class CombatManager : MonoBehaviour
 
     void ToggleInputForAll(bool enabled)
     {
-        // Exemplo: desabilitar interação durante combate
+        // Aqui você pode travar ou liberar cliques durante o combate
     }
 
     public bool CanPlaceOnBoard(Transform board)
