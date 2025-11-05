@@ -6,24 +6,28 @@ public class RewardSystem : MonoBehaviour
     [Tooltip("Gold dado ao jogador por vencer uma fase.")]
     public int goldReward = 100;
 
-    // Referência ao PlayerStats (setar no inspector ou buscar em runtime)
-    public PlayerStats playerStats;
+    private PlayerStats playerStats;
 
-    // Chame essa função quando o jogador vencer a batalha
+    [System.Obsolete]
+    void Awake()
+    {
+        // Busca automática de PlayerStats na cena
+        if (playerStats == null)
+            playerStats = FindObjectOfType<PlayerStats>();
+    }
+
+    /// <summary>
+    /// Dá recompensa de vitória ao jogador (chame quando o jogador vencer)
+    /// </summary>
     public void GiveWinReward()
     {
         if (playerStats == null)
         {
-            playerStats = FindObjectOfType<PlayerStats>();
-            if (playerStats == null)
-            {
-                Debug.LogWarning("RewardSystem: PlayerStats não encontrado.");
-                return;
-            }
+            Debug.LogWarning("RewardSystem: PlayerStats não encontrado na cena!");
+            return;
         }
 
         playerStats.AddGold(goldReward);
-        Debug.Log($"RewardSystem: jogador recebeu {goldReward} gold.");
-        // Aqui você pode disparar efeitos visuais, som, popup, etc.
+        Debug.Log($"💰 Jogador recebeu {goldReward} de gold! Total atual: {playerStats.gold}");
     }
 }

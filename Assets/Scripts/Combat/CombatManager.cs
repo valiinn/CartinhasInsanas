@@ -127,15 +127,16 @@ public class CombatManager : MonoBehaviour
         }
         else if (!playerAlive && enemyAlive)
         {
-            Debug.Log("❌ Jogador perdeu o combate!");
+            Debug.Log(" Jogador perdeu o combate!");
         }
         else
         {
-            Debug.Log("⚖️ Empate ou tempo acabou!");
+            Debug.Log(" Empate ou tempo acabou!");
         }
 
         ReviveAndHealBoard(tabuleiroB);
-        ReviveAndHealBoard(tabuleiroA);
+
+        
 
         ToggleInputForAll(true);
         inCombat = false;
@@ -147,7 +148,7 @@ public class CombatManager : MonoBehaviour
     {
         if (rewardSystem == null)
         {
-            rewardSystem = FindObjectOfType<RewardSystem>();
+            rewardSystem = FindFirstObjectByType<RewardSystem>();
         }
 
         if (rewardSystem != null)
@@ -159,6 +160,7 @@ public class CombatManager : MonoBehaviour
             Debug.LogWarning("RewardSystem não encontrado na cena!");
         }
     }
+
 
     private void ReviveAndHealBoard(Transform board)
     {

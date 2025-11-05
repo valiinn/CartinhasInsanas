@@ -156,8 +156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 2
   attackInterval: 1.5
-  projectileSpeed: 5
+  projectileSpeed: 4
   projectilePrefab: {fileID: 8495605318231232423, guid: 499804f1797938f43a677c3dcf539f7c, type: 3}
+  projectilesPerAttack: 3
   IsAlive: 1
 --- !u!61 &5487738641374402707
 BoxCollider2D:
