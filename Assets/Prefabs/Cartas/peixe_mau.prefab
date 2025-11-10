@@ -104,6 +104,9 @@ MonoBehaviour:
   custoText: {fileID: 6412869485175502972}
   raridadeText: {fileID: 0}
   background: {fileID: 1569036104129480917}
+  trait: 1
+  traitText: {fileID: 0}
+  traitBadge: {fileID: 0}
   shopPanel: {fileID: 0}
   handPanel: {fileID: 0}
   maxHandSize: 7

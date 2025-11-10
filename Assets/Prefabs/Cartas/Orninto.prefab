@@ -104,6 +104,9 @@ MonoBehaviour:
   custoText: {fileID: 5903666182334571478}
   raridadeText: {fileID: 0}
   background: {fileID: 4004469039123142365}
+  trait: 1
+  traitText: {fileID: 0}
+  traitBadge: {fileID: 0}
   shopPanel: {fileID: 0}
   handPanel: {fileID: 0}
   maxHandSize: 7
@@ -158,6 +161,7 @@ MonoBehaviour:
   attackInterval: 1.5
   projectileSpeed: 4
   projectilePrefab: {fileID: 8495605318231232423, guid: 22b933bbb8d217347adad9971b7c3159, type: 3}
+  projectilesPerAttack: 1
   IsAlive: 1
 --- !u!61 &-3237636094940446105
 BoxCollider2D:
