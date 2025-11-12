@@ -54,7 +54,7 @@ public class DropSlot : MonoBehaviour, IDropHandler
         AjustarLayout(draggedRT, slotRT);
 
         // atualiza referência no Card
-        draggedCard.OriginalParent = slotRT;
+        draggedCard.SetOriginalParent(slotRT); // ✅
     }
 
     private RectTransform FindOccupyingCardRT(Transform slot, GameObject exclude)
@@ -77,41 +77,41 @@ public class DropSlot : MonoBehaviour, IDropHandler
     }
 
     private void AjustarLayout(RectTransform rect, RectTransform parentRect)
-{
-    rect.localScale = Vector3.one;
-    rect.localRotation = Quaternion.identity;
-    rect.pivot = new Vector2(0.5f, 0.5f);
-
-    var parentSlot = parentRect ? parentRect.GetComponent<DropSlot>() : null;
-    bool shouldFill = parentSlot != null && parentSlot.fillParent;
-
-    if (shouldFill)
     {
-        // Carta ocupa todo o slot
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.offsetMin = new Vector2(parentSlot.padding.x, parentSlot.padding.y);
-        rect.offsetMax = new Vector2(-parentSlot.padding.x, -parentSlot.padding.y);
-        rect.anchoredPosition = Vector2.zero;
         rect.localScale = Vector3.one;
-    }
-    else
-    {
-        // Parent comum (mão, loja, etc)
-        rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-        rect.offsetMin = Vector2.zero;
-        rect.offsetMax = Vector2.zero;
-        rect.anchoredPosition = Vector2.zero;
-        rect.localScale = Vector3.one;
+        rect.localRotation = Quaternion.identity;
+        rect.pivot = new Vector2(0.5f, 0.5f);
 
-        // Se o pai usa GridLayoutGroup ou LayoutGroup, deixa o layout controlar o tamanho
-        var layout = parentRect.GetComponent<LayoutGroup>();
-        if (layout == null)
+        var parentSlot = parentRect ? parentRect.GetComponent<DropSlot>() : null;
+        bool shouldFill = parentSlot != null && parentSlot.fillParent;
+
+        if (shouldFill)
         {
-            // Define tamanho padrão do card (sem layout)
-            rect.sizeDelta = new Vector2(75, 90); // ou o tamanho padrão do seu prefab
+            // Carta ocupa todo o slot
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = new Vector2(parentSlot.padding.x, parentSlot.padding.y);
+            rect.offsetMax = new Vector2(-parentSlot.padding.x, -parentSlot.padding.y);
+            rect.anchoredPosition = Vector2.zero;
+            rect.localScale = Vector3.one;
+        }
+        else
+        {
+            // Parent comum (mão, loja, etc)
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.anchoredPosition = Vector2.zero;
+            rect.localScale = Vector3.one;
+
+            // Se o pai usa GridLayoutGroup ou LayoutGroup, deixa o layout controlar o tamanho
+            var layout = parentRect.GetComponent<LayoutGroup>();
+            if (layout == null)
+            {
+                // Define tamanho padrão do card (sem layout)
+                rect.sizeDelta = new Vector2(75, 90); // ou o tamanho padrão do seu prefab
+            }
         }
     }
-}
 
 }
