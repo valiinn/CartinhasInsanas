@@ -1,2 +1,18 @@
 fileFormatVersion: 2
 guid: ad4217adab6227b42ad0dbbe8445ad48
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - fullHeart: {fileID: 7354856336511833822, guid: 8704af135db5fa741bbf38b72143a6a7, type: 3}
+  - emptyHeart: {fileID: -5128850884273562437, guid: 6eb066630f9c6a14bb916bc503ed5e6b, type: 3}
+  - deathScreen: {instanceID: 0}
+  - deathText: {instanceID: 0}
+  - deathFade: {instanceID: 0}
+  - restartButton: {instanceID: 0}
+  - menuButton: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
