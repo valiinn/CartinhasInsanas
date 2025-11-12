@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 8495605318231232423}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -954.2308, y: -534.3828, z: 0}
-  m_LocalScale: {x: 200, y: 200, z: 1}
+  m_LocalPosition: {x: -954.3309, y: -534.4071, z: 0}
+  m_LocalScale: {x: 1.8361964, y: 1.343125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -126,6 +126,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationOffset: -90
   spawnDelay: 0.1
+  spawnState: Projectile_Spawn
+  trajectoryState: Projectile_Trajectory
+  impactState: Projectile_Impact
 --- !u!61 &7016266615367188327
 BoxCollider2D:
   m_ObjectHideFlags: 0

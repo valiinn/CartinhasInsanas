@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5265980751388633672}
   - component: {fileID: 8511906834026363802}
   - component: {fileID: 5487738641374402707}
+  - component: {fileID: 908963250824611201}
   m_Layer: 7
   m_Name: peixe_mau
   m_TagString: Untagged
@@ -160,7 +161,7 @@ MonoBehaviour:
   damage: 2
   attackInterval: 1.5
   projectileSpeed: 4
-  projectilePrefab: {fileID: 8495605318231232423, guid: 499804f1797938f43a677c3dcf539f7c, type: 3}
+  projectilePrefab: {fileID: 8495605318231232423, guid: 579ffd84d57536b409a99fd8604cdaf6, type: 3}
   projectilesPerAttack: 3
   IsAlive: 1
 --- !u!61 &5487738641374402707
@@ -209,6 +210,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &908963250824611201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d5b63c0855fff4c805ddbe3ad4f577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeBuffs: 
 --- !u!1 &2268371552538916545
 GameObject:
   m_ObjectHideFlags: 0

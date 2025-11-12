@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: -6997594089118759131}
   - component: {fileID: -6177520394330718404}
   - component: {fileID: 5590165916231797278}
+  - component: {fileID: -1486008397830409754}
   m_Layer: 7
   m_Name: sapo
   m_TagString: Untagged
@@ -235,7 +236,7 @@ MonoBehaviour:
   damage: 1
   attackInterval: 1.5
   projectileSpeed: 3
-  projectilePrefab: {fileID: 8495605318231232423, guid: 22b933bbb8d217347adad9971b7c3159, type: 3}
+  projectilePrefab: {fileID: 8495605318231232423, guid: 71193803d2b6f764f921b03cd74a47d3, type: 3}
   projectilesPerAttack: 1
   IsAlive: 1
 --- !u!61 &5590165916231797278
@@ -284,6 +285,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-1486008397830409754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d5b63c0855fff4c805ddbe3ad4f577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeBuffs: 
 --- !u!1 &2656798845217814419
 GameObject:
   m_ObjectHideFlags: 0

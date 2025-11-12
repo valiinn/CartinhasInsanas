@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4190720564440642284}
   - component: {fileID: 7016266615367188327}
   m_Layer: 6
-  m_Name: projectile_sheet_0
+  m_Name: agua2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 8495605318231232423}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -954.3309, y: -534.4071, z: 0}
-  m_LocalScale: {x: 1.8361964, y: 1.343125, z: 1}
+  m_LocalPosition: {x: -1755.9299, y: 162.2034, z: 0}
+  m_LocalScale: {x: 0.040295146, y: 0.06282676, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5025235208797305419, guid: 8f7c83646a574aa45af774e883912b72, type: 3}
+  m_Sprite: {fileID: -5387562833892707887, guid: b751c2fb99f7224479b47d028e9441a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +100,7 @@ Animator:
   m_GameObject: {fileID: 8495605318231232423}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 319f258c2847df745b6e6aaec10450d4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5e2f802cfffc33c4d940bb34664a4600, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -167,7 +167,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.78125, y: 1.03125}
+    oldSize: {x: 28.37804, y: 16.65625}
     newSize: {x: 0.78125, y: 1.03125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

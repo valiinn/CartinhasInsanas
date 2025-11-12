@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4190720564440642284}
   - component: {fileID: 7016266615367188327}
   m_Layer: 6
-  m_Name: projectile_sheet_0 1
+  m_Name: veneno1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,7 @@ Animator:
   m_GameObject: {fileID: 8495605318231232423}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4e50c5d2c5855bf4f93afe7d4031952d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 964a9d5150579024e9a0bfb1edad7a0d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5265980751388633672}
   - component: {fileID: 8511906834026363802}
   - component: {fileID: 5487738641374402707}
+  - component: {fileID: 3765151568822493575}
   m_Layer: 7
   m_Name: cobra
   m_TagString: Untagged
@@ -104,6 +105,9 @@ MonoBehaviour:
   custoText: {fileID: 6412869485175502972}
   raridadeText: {fileID: 0}
   background: {fileID: 1569036104129480917}
+  trait: 0
+  traitText: {fileID: 0}
+  traitBadge: {fileID: 0}
   shopPanel: {fileID: 0}
   handPanel: {fileID: 0}
   maxHandSize: 7
@@ -157,7 +161,7 @@ MonoBehaviour:
   damage: 2
   attackInterval: 1.5
   projectileSpeed: 4
-  projectilePrefab: {fileID: 8495605318231232423, guid: 22b933bbb8d217347adad9971b7c3159, type: 3}
+  projectilePrefab: {fileID: 8495605318231232423, guid: 71193803d2b6f764f921b03cd74a47d3, type: 3}
   projectilesPerAttack: 3
   IsAlive: 1
 --- !u!61 &5487738641374402707
@@ -206,6 +210,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3765151568822493575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747456636909858010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d5b63c0855fff4c805ddbe3ad4f577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeBuffs: 
 --- !u!1 &2268371552538916545
 GameObject:
   m_ObjectHideFlags: 0
