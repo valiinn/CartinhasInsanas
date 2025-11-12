@@ -40,6 +40,10 @@ public class PhaseManager : MonoBehaviour
     [SerializeField] private int bossCounter = 0;         // qual boss usar na fase Boss
     [SerializeField] private bool advanceStageOnEachBattle = true; // prepara próximo após carregar
     // ==============================================================================
+    
+    [Header("Merchant UI")]
+    [SerializeField] private MerchantUI merchantUI;
+
 
     private readonly PhaseType[] pattern = {
         PhaseType.Battle, PhaseType.Battle, PhaseType.Battle,
@@ -174,10 +178,19 @@ public class PhaseManager : MonoBehaviour
                 Debug.LogWarning("[PhaseManager] Não há bossStages configurados no StageManager.");
             }
         }
+        if (type == PhaseType.Merchant)
+        {
+            merchantUI.ShowMerchant();
+        }
         else
         {
-            // Merchant/Event: não iniciamos nem paramos combate aqui
+            merchantUI.HideMerchant();
         }
+        if (merchantUI != null)
+        {
+            merchantUI.gameObject.SetActive(type == PhaseType.Merchant);
+        }
+
     }
 
     // Delay de 1 frame para spawnar boss com segurança
