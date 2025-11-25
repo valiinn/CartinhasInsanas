@@ -99,7 +99,15 @@ public class CombatManager : MonoBehaviour
 
             if (phaseManager != null)
             {
-                phaseManager.NextPhase();
+                bool blockAdvance = phaseManager.TryHandlePlayerWinDuringCurrentPhase();
+                if(!blockAdvance)
+                {
+                    phaseManager.NextPhase();
+                }
+                else
+                {
+                Debug.Log("[CombatManager] Avanço automático bloqueado pelo PhaseManager (tela final).");
+                }
             }
             else
             {

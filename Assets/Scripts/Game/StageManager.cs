@@ -162,4 +162,39 @@ public class StageManager : MonoBehaviour
             (list[i], list[j]) = (list[j], list[i]);
         }
     }
+
+    /// <summary>
+    /// Retorna todos os CardHealth atualmente presentes no board inimigo (enemySlots).
+    /// Usado para verificar se restam cartas vivas do boss.
+    /// </summary>
+    public List<CardHealth> GetCurrentEnemyCardHealths()
+    {
+        List<CardHealth> list = new List<CardHealth>();
+
+        if (enemySlots == null || enemySlots.Count == 0) return list;
+
+        foreach (var slot in enemySlots)
+        {
+            if (slot == null) continue;
+            for (int i = 0; i < slot.childCount; i++)
+            {
+                    var ch = slot.GetChild(i).GetComponent<CardHealth>();
+                    if (ch != null)
+                {
+                    list.Add(ch);
+                    continue;
+                }
+
+                // fallback: se o prefab tiver Card (UI) e CardHealth estiver em outro child, tenta localizar
+                var card = slot.GetChild(i).GetComponent<Card>();
+                if (card != null)
+                {
+                    var chChild = slot.GetChild(i).GetComponentInChildren<CardHealth>(true);
+                    if (chChild != null) list.Add(chChild);
+                }
+            }
+        }
+
+        return list;
+    }
 }
