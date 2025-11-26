@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public enum PhaseType { Battle, Boss, Merchant, Event }
 
@@ -56,6 +58,21 @@ public class PhaseManager : MonoBehaviour
     private List<Image> phaseIconsInUI = new List<Image>();
     private int currentPhaseIndex = 0;
     private float scrollLerpTarget = 0f;
+
+    // =============== BOSS SETTINGS (Configuráveis no Inspector) ================== //
+    [Header("Boss Phase Numbers (1-based)")]
+    [Tooltip("Número da fase onde aparece o Boss 1")]
+    public int boss1PhaseNumber = 5;
+
+    [Tooltip("Número da fase onde aparece o Boss 2")]
+    public int boss2PhaseNumber = 11;
+
+    [Header("Arena & UI Controllers")]
+    public ArenaController arenaController;
+    public TMP_UIStyleManager uiManager;
+
+    private bool boss1Handled = false;
+    private bool boss2Handled = false;
 
     void Start()
     {
@@ -214,6 +231,67 @@ public class PhaseManager : MonoBehaviour
         }
     }
 
+    // ----------------- API pública usada pelo CombatManager -----------------
+    /// <summary>
+    /// Chamado pelo CombatManager quando o jogador venceu o combate.
+    /// Retorna true se o PhaseManager tratou a situação e pediu que o CombatManager **não** avance automaticamente
+    /// para a próxima fase (ex: tela final do segundo boss). Retorna false se o CombatManager deve continuar e chamar NextPhase().
+    /// </summary>
+    public bool TryHandlePlayerWinDuringCurrentPhase()
+    {
+        int currentPhaseNumber = currentPhaseIndex + 1; // 1-based
+
+        // só faz algo se estamos numa fase Boss
+        var type = pattern[currentPhaseIndex % pattern.Length];
+        if (type != PhaseType.Boss) return false;
+
+        if (stageManager == null) return false;
+
+        // pega todas as cartas do inimigo (CardHealth) e confere se restou alguma
+        var bossCards = stageManager.GetCurrentEnemyCardHealths();
+        bool anyAlive = bossCards != null && bossCards.Any(ch => ch != null && !ch.IsDead);
+
+        if (anyAlive)
+            // ainda há cartas vivas -> nada a fazer
+            return false;
+
+        // se chegamos aqui, a fase-Boss atual foi limpa
+        Debug.Log($"[PhaseManager] Fase-Boss nº {currentPhaseNumber} limpa pelo jogador.");
+
+        // Boss 1 (trocar arena + mostrar tela breve) -> permite avanço automático
+        if (currentPhaseNumber == boss1PhaseNumber && !boss1Handled)
+        {
+            boss1Handled = true;
+            Debug.Log("[PhaseManager] Boss 1 derrotado — trocando arena e mostrando UI.");
+
+            if (arenaController != null)
+                arenaController.SwitchArena("Floresta"); // ajuste de nome conforme projeto
+
+            if (uiManager != null)
+                uiManager.ShowVictoryScreen(); // tela de vitória curta 
+            
+            // retornar false -> CombatManager continuará e chamará NextPhase()
+            return false;
+        }
+
+        // Boss 2 (tela final) -> bloqueia avanço automático
+        if (currentPhaseNumber == boss2PhaseNumber && !boss2Handled)
+        {
+            boss2Handled = true;
+            Debug.Log("[PhaseManager] Boss 2 derrotado — mostrando tela final de vitória.");
+
+            if (uiManager != null)
+            {
+                uiManager.ShowFinalVictoryScreen(); // método opcional (veja nota abaixo)
+            }
+
+            // retornar true -> CombatManager NÃO chamará NextPhase()
+            return true;
+        }
+
+        // casos padrão: se for um boss não configurado especificamente, permitir avanço
+        return false;
+    }
     // Helpers de UI/scroll
     Sprite GetSpriteForType(PhaseType type)
     {
