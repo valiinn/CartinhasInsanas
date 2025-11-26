@@ -157,21 +157,7 @@ public class MerchantUI : MonoBehaviour
 
         playerStats.SpendGold(def.cost);
 
-        // aplica buff nas cartas do jogador usando a definição completa
-        if (CombatManager.Instance != null)
-        {
-            var cards = CombatManager.Instance.GetActiveCardCombats(CombatManager.Instance.tabuleiroB);
-            foreach (var c in cards)
-            {
-                var bs = c.GetComponent<BuffSystem>();
-                if (bs == null) bs = c.gameObject.AddComponent<BuffSystem>();
-
-                // Passa a definição completa para usar valores configuráveis
-                bs.ApplyBuff(def.buffType, def);
-            }
-        }
-
-        // move pro painel do jogador
+        // move pro painel do jogador (o jogador arrasta para a carta desejada)
         AddBuffToMyPanel(def, card);
 
         Debug.Log($"Comprou o buff {def.buffName}");
