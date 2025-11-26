@@ -3934,6 +3934,7 @@ MonoBehaviour:
   bossCounter: 0
   advanceStageOnEachBattle: 1
   merchantUI: {fileID: 1478123753}
+  combatManager: {fileID: 0}
 --- !u!95 &1318603745
 Animator:
   serializedVersion: 7
@@ -5099,22 +5100,39 @@ MonoBehaviour:
   myBuffsPanel: {fileID: 297469194}
   buffCardPrefab: {fileID: 747456636909858010, guid: 600f4fe68310630419693f449a1bdff2, type: 3}
   closeButton: {fileID: 0}
+  closeXButton: {fileID: 0}
+  playerStats: {fileID: 0}
   buffDefinitions:
   - buffType: 0
     buffName: Shild
     icon: {fileID: 0}
     cost: 5
-    buffPrefab: {fileID: 747456636909858010, guid: 600f4fe68310630419693f449a1bdff2, type: 3}
+    buffPrefab: {fileID: 747456636909858010, guid: 13f13882bbfeb7145a764d642bf7349f, type: 3}
+    damageBonus: 2
+    speedMultiplier: 0.7
+    shieldCount: 1
+    shieldColor: {r: 0.4, g: 0.7, b: 1, a: 0.4}
+    minAttackInterval: 0.4
   - buffType: 1
     buffName: Shild
     icon: {fileID: 0}
     cost: 5
-    buffPrefab: {fileID: 747456636909858010, guid: 600f4fe68310630419693f449a1bdff2, type: 3}
-  - buffType: 1
+    buffPrefab: {fileID: 747456636909858010, guid: 0d6b3a079ddd3ee469076ec5a14e436b, type: 3}
+    damageBonus: 2
+    speedMultiplier: 0.7
+    shieldCount: 3
+    shieldColor: {r: 0.4, g: 0.7, b: 1, a: 0.4}
+    minAttackInterval: 0.4
+  - buffType: 2
     buffName: Shild
     icon: {fileID: 0}
     cost: 5
-    buffPrefab: {fileID: 747456636909858010, guid: 600f4fe68310630419693f449a1bdff2, type: 3}
+    buffPrefab: {fileID: 747456636909858010, guid: f32ff4cc0acf3f744ac9678fd8d84558, type: 3}
+    damageBonus: 2
+    speedMultiplier: 0.7
+    shieldCount: 1
+    shieldColor: {r: 0.4, g: 0.7, b: 1, a: 0.4}
+    minAttackInterval: 0.4
   buffsPerRefresh: 3
   randomize: 1
 --- !u!114 &1478123754
@@ -5192,15 +5210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a5220ea24f0c8498c609cd25c15aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffShopPanel: {fileID: 1877652488}
-  myBuffsPanel: {fileID: 297469194}
-  playerStats: {fileID: 1771639467}
-  buffItemPrefab: {fileID: 747456636909858010, guid: b26c78440775a3f42a3dbec422009e0b, type: 3}
-  shieldIcon: {fileID: 0}
-  attackIcon: {fileID: 0}
-  speedIcon: {fileID: 0}
-  buffsPerRefresh: 3
-  allBuffs: 000000000100000002000000
 --- !u!1 &1505606564
 GameObject:
   m_ObjectHideFlags: 0
