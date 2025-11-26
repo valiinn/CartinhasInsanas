@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8db1222ee4abc7e4e8486076a7399019
+guid: 703d493c00930044180608d2eb18ff3c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2691268735886788538
-    second: pngtree-sword-medieval-vector-png-image_4765794_0
+      213: 7285104100621103090
+    second: fundo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pngtree-sword-medieval-vector-png-image_4765794_0
+      name: fundo_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 640
-        height: 640
+        width: 1600
+        height: 1131
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6487a5af751b6aad0800000000000000
-      internalID: -2691268735886788538
+      spriteID: 2ff2345d493e91560800000000000000
+      internalID: 7285104100621103090
       vertices: []
       indices: 
       edges: []
@@ -147,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      pngtree-sword-medieval-vector-png-image_4765794_0: -2691268735886788538
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
