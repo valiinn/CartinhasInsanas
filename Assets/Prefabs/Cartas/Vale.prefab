@@ -106,7 +106,7 @@ MonoBehaviour:
   custoText: {fileID: 5284207992384270432}
   raridadeText: {fileID: 0}
   background: {fileID: 58716496577548263}
-  trait: 0
+  trait: 2
   traitText: {fileID: 0}
   traitBadge: {fileID: 0}
   shopPanel: {fileID: 0}
