@@ -179,6 +179,16 @@ public class CombatManager : MonoBehaviour
             if (cc == null) continue;
             cc.IsAlive = true;
         }
+
+        // Regenera escudos das cartas que têm buff de escudo
+        // Verifica por BuffSystem que tem definição de escudo (mesmo que consumido)
+        var allBuffSystems = board.GetComponentsInChildren<BuffSystem>(true);
+        foreach (var bs in allBuffSystems)
+        {
+            if (bs == null) continue;
+            // Tenta regenerar - o método verifica internamente se tem definição de escudo
+            bs.RegenerateShield();
+        }
     }
 
     public CardCombat[] GetActiveCardCombats(Transform board)
