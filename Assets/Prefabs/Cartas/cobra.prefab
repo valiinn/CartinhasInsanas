@@ -105,7 +105,7 @@ MonoBehaviour:
   custoText: {fileID: 6412869485175502972}
   raridadeText: {fileID: 0}
   background: {fileID: 1569036104129480917}
-  trait: 0
+  trait: 4
   traitText: {fileID: 0}
   traitBadge: {fileID: 0}
   shopPanel: {fileID: 0}
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d5b63c0855fff4c805ddbe3ad4f577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeBuffs: 
+  activeBuffs: 00000000000000000000000000000000
 --- !u!1 &2268371552538916545
 GameObject:
   m_ObjectHideFlags: 0

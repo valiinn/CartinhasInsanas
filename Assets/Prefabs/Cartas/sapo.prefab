@@ -180,7 +180,7 @@ MonoBehaviour:
   custoText: {fileID: 5024522095844071304}
   raridadeText: {fileID: 0}
   background: {fileID: 4690778475833226960}
-  trait: 1
+  trait: 2
   traitText: {fileID: 0}
   traitBadge: {fileID: 0}
   shopPanel: {fileID: 0}
