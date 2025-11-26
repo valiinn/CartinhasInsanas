@@ -76,6 +76,13 @@ public class CardHealth : MonoBehaviour
         if (combat != null)
             combat.IsAlive = true;
 
+        // Restaura todos os buffs quando a carta renasce
+        var buffSystem = GetComponent<BuffSystem>();
+        if (buffSystem != null)
+        {
+            buffSystem.RestoreAllBuffs();
+        }
+
         UpdateUI();
     }
 

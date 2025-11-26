@@ -9,8 +9,12 @@ public class MerchantUI : MonoBehaviour
     [SerializeField] private GameObject merchantPanel;
     [SerializeField] private Transform itemGrid;
     [SerializeField] private Transform myBuffsPanel;
-    [SerializeField] private GameObject buffCardPrefab;
+    [SerializeField] private GameObject buffCardPrefab; // Prefab padrão (fallback se BuffDefinition não tiver prefab)
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button closeXButton; // Botão X para fechar
+
+    [Header("Referências")]
+    [SerializeField] private PlayerStats playerStats; // Referência direta ao invés de FindObjectOfType
 
     [Header("Buff Definitions")]
     [SerializeField] private List<BuffDefinition> buffDefinitions = new List<BuffDefinition>();
@@ -22,7 +26,24 @@ public class MerchantUI : MonoBehaviour
     private void Start()
     {
         if (merchantPanel != null) merchantPanel.SetActive(false);
-        if (closeButton != null) closeButton.onClick.AddListener(HideMerchant);
+        
+        // Configura botão de fechar padrão
+        if (closeButton != null) 
+            closeButton.onClick.AddListener(HideMerchant);
+        
+        // Configura botão X de fechar
+        if (closeXButton != null) 
+            closeXButton.onClick.AddListener(HideMerchant);
+
+        // Busca PlayerStats se não foi atribuído no Inspector
+        if (playerStats == null)
+        {
+#if UNITY_2023_1_OR_NEWER
+            playerStats = FindFirstObjectByType<PlayerStats>();
+#else
+            playerStats = FindObjectOfType<PlayerStats>();
+#endif
+        }
     }
 
     public void ShowMerchant()
@@ -80,11 +101,26 @@ public class MerchantUI : MonoBehaviour
     // --------------------------------------------------------------------
     private void CreateBuffCard(BuffDefinition def)
     {
-        GameObject card = Instantiate(buffCardPrefab, itemGrid);
+        // Usa o prefab específico do BuffDefinition, ou o genérico como fallback
+        GameObject prefabToUse = def.buffPrefab != null ? def.buffPrefab : buffCardPrefab;
+        
+        if (prefabToUse == null)
+        {
+            Debug.LogError($"MerchantUI: Nenhum prefab definido para o buff '{def.buffName}' e nenhum prefab padrão configurado!");
+            return;
+        }
 
+        GameObject card = Instantiate(prefabToUse, itemGrid);
+
+        // Tenta encontrar os componentes UI (pode variar dependendo do prefab)
         var icon = card.transform.Find("Content/Icon")?.GetComponent<Image>();
+        if (icon == null) icon = card.transform.Find("Icon")?.GetComponent<Image>();
+        
         var nameText = card.transform.Find("Content/Name")?.GetComponent<TMP_Text>();
+        if (nameText == null) nameText = card.transform.Find("Name")?.GetComponent<TMP_Text>();
+        
         var costText = card.transform.Find("Content/Cost")?.GetComponent<TMP_Text>();
+        if (costText == null) costText = card.transform.Find("Cost")?.GetComponent<TMP_Text>();
 
         var button = card.GetComponent<Button>();
         if (button == null) button = card.AddComponent<Button>();
@@ -107,25 +143,32 @@ public class MerchantUI : MonoBehaviour
     // --------------------------------------------------------------------
     private void OnBuyBuff(BuffDefinition def, GameObject card)
     {
-        PlayerStats ps = FindAnyObjectByType<PlayerStats>();
-        if (ps == null) return;
+        if (playerStats == null)
+        {
+            Debug.LogWarning("MerchantUI: PlayerStats não encontrado!");
+            return;
+        }
 
-        if (ps.gold < def.cost)
+        if (playerStats.gold < def.cost)
         {
             Debug.Log("Ouro insuficiente");
             return;
         }
 
-        ps.SpendGold(def.cost);
+        playerStats.SpendGold(def.cost);
 
-        // aplica buff nas cartas do jogador
-        var cards = CombatManager.Instance.GetActiveCardCombats(CombatManager.Instance.tabuleiroB);
-        foreach (var c in cards)
+        // aplica buff nas cartas do jogador usando a definição completa
+        if (CombatManager.Instance != null)
         {
-            var bs = c.GetComponent<BuffSystem>();
-            if (bs == null) bs = c.gameObject.AddComponent<BuffSystem>();
+            var cards = CombatManager.Instance.GetActiveCardCombats(CombatManager.Instance.tabuleiroB);
+            foreach (var c in cards)
+            {
+                var bs = c.GetComponent<BuffSystem>();
+                if (bs == null) bs = c.gameObject.AddComponent<BuffSystem>();
 
-            bs.ApplyBuff(def.buffType);
+                // Passa a definição completa para usar valores configuráveis
+                bs.ApplyBuff(def.buffType, def);
+            }
         }
 
         // move pro painel do jogador
@@ -165,7 +208,10 @@ public class MerchantUI : MonoBehaviour
         var drag = card.GetComponent<BuffDraggable>();
         if (drag == null) drag = card.AddComponent<BuffDraggable>();
 
-        drag.Setup(def.buffType);
+        // Passa a definição completa para usar valores configuráveis
+        drag.Setup(def);
+        // Define o painel de origem (MyBuffs) para o buff
+        drag.SetHomePanel(myBuffsPanel);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(myBuffsPanel.GetComponent<RectTransform>());
     }

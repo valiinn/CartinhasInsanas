@@ -44,6 +44,9 @@ public class PhaseManager : MonoBehaviour
     [Header("Merchant UI")]
     [SerializeField] private MerchantUI merchantUI;
 
+    [Header("Combat Manager")]
+    [SerializeField] private CombatManager combatManager;
+
 
     private readonly PhaseType[] pattern = {
         PhaseType.Battle, PhaseType.Battle, PhaseType.Battle,
@@ -143,6 +146,9 @@ public class PhaseManager : MonoBehaviour
     {
         var type = pattern[currentPhaseIndex % pattern.Length];
         Debug.Log($"Entrando na fase {currentPhaseIndex + 1}: {type}");
+
+        // Regenera buffs das cartas do jogador ao mudar de fase
+        RegeneratePlayerBuffs();
 
         if (stageManager == null) return;
 
@@ -278,5 +284,33 @@ public class PhaseManager : MonoBehaviour
             bossCounter = Mathf.Clamp(index, 0, stageManager.bossStages.Count - 1);
 
         Debug.Log($"[PhaseManager] bossCounter definido para {bossCounter}.");
+    }
+
+    /// <summary>
+    /// Regenera todos os buffs das cartas do jogador
+    /// </summary>
+    private void RegeneratePlayerBuffs()
+    {
+        if (combatManager == null)
+        {
+#if UNITY_2023_1_OR_NEWER
+            combatManager = FindFirstObjectByType<CombatManager>();
+#else
+            combatManager = FindObjectOfType<CombatManager>();
+#endif
+        }
+
+        if (combatManager != null && combatManager.tabuleiroB != null)
+        {
+            var allBuffSystems = combatManager.tabuleiroB.GetComponentsInChildren<BuffSystem>(true);
+            foreach (var bs in allBuffSystems)
+            {
+                if (bs == null) continue;
+                // Regenera escudos e restaura outros buffs
+                bs.RegenerateShield();
+                bs.RestoreAllBuffs();
+            }
+            Debug.Log($"[PhaseManager] Regenerou buffs de {allBuffSystems.Length} cartas do jogador.");
+        }
     }
 }

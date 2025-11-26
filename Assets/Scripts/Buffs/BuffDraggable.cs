@@ -13,10 +13,37 @@ public class BuffDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private RectTransform dragCanvasRT;
 
     private BuffType buffType;
+    private BuffDefinition buffDefinition; // Armazena a definição completa
+    private CardCombat previousCard; // Carta que tinha o buff antes
+    private Transform homePanel;     // Painel "MyBuffs" de origem
 
+    /// <summary>
+    /// Configura o buff usando apenas o tipo (compatibilidade com código antigo)
+    /// </summary>
     public void Setup(BuffType type)
     {
         buffType = type;
+        buffDefinition = null;
+    }
+
+    /// <summary>
+    /// Configura o buff usando BuffDefinition completo (método recomendado)
+    /// </summary>
+    public void Setup(BuffDefinition definition)
+    {
+        if (definition != null)
+        {
+            buffType = definition.buffType;
+            buffDefinition = definition;
+        }
+    }
+
+    /// <summary>
+    /// Define o painel de origem (MyBuffs) para onde o buff volta quando não está em uma carta
+    /// </summary>
+    public void SetHomePanel(Transform panel)
+    {
+        homePanel = panel;
     }
 
     private void Awake()
@@ -36,6 +63,11 @@ public class BuffDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         originalParent = transform.parent;
         originalScale = transform.localScale;
+
+        // Detecta qual carta tinha o buff antes de arrastar
+        previousCard = transform.parent?.GetComponent<CardCombat>();
+        if (previousCard == null)
+            previousCard = transform.parent?.GetComponentInParent<CardCombat>();
 
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = false;
@@ -77,14 +109,23 @@ public class BuffDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (eventData.pointerEnter != null)
             card = eventData.pointerEnter.GetComponentInParent<CardCombat>();
 
+        // Se soltou em cima de uma carta, aplica/move o buff para ela
         if (card != null)
         {
             AttachToCard(card);
             return;
         }
 
-        // volta pro painel
-        transform.SetParent(originalParent, false);
+        // Se o buff já estava aplicado em uma carta, sempre volta para essa carta
+        if (previousCard != null)
+        {
+            AttachToCard(previousCard);
+            return;
+        }
+
+        // Caso contrário (buff ainda está no painel), volta para o painel de origem
+        Transform targetParent = homePanel != null ? homePanel : originalParent;
+        transform.SetParent(targetParent, false);
         rt.localScale = originalScale;
     }
 
@@ -95,7 +136,33 @@ public class BuffDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (bs == null)
             bs = card.gameObject.AddComponent<BuffSystem>();
 
-        bs.ApplyBuff(buffType);
+        // Se está movendo para uma carta diferente, remove o buff da carta anterior
+        if (previousCard != null && previousCard != card)
+        {
+            BuffSystem previousBS = previousCard.GetComponent<BuffSystem>();
+            if (previousBS != null)
+            {
+                // Remove o buff da carta anterior sem limpar a definição
+                previousBS.RemoveBuffWithoutClearingDefinition(buffType);
+                Debug.Log($"Buff {buffType} removido da carta anterior: {previousCard.name}");
+            }
+        }
+
+        // Se a carta já tem esse buff, não aplica novamente
+        if (bs.activeBuffs.Contains(buffType))
+        {
+            Debug.Log($"Carta {card.name} já tem o buff {buffType}. Mantendo na carta.");
+            // Atualiza a referência mesmo assim
+            previousCard = card;
+            transform.SetParent(card.transform, false);
+            return;
+        }
+
+        // Passa a definição completa se disponível, senão usa apenas o tipo
+        bs.ApplyBuff(buffType, buffDefinition);
+
+        // Atualiza a referência da carta atual
+        previousCard = card;
 
         transform.SetParent(card.transform, false);
 
