@@ -2543,6 +2543,7 @@ MonoBehaviour:
   maxHandSize: 7
   refreshButton: {fileID: 181860452}
   cardsPerRefresh: 5
+  refreshCost: 1
   availableCards:
   - {fileID: 747456636909858010, guid: d71088a9c4221f24981a4c4827d12c1f, type: 3}
   - {fileID: 747456636909858010, guid: 4f36d7a38de8fe442acd34f5d9f00967, type: 3}
@@ -5853,7 +5854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e4c60f0b13e7ce4fa8e798d9d340dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 50
+  gold: 10
   goldText: {fileID: 1392678011}
 --- !u!1 &1803989027
 GameObject:
@@ -6283,11 +6284,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 34b73a6d7c83f0f4086f4c50c61b4b92, type: 2}
   - {fileID: 11400000, guid: 44e1cfe670e5ad840ad8c0d9d3ac259d, type: 2}
   - {fileID: 11400000, guid: 4084079691fc49e44a75f2dcaf148d79, type: 2}
+  - {fileID: 11400000, guid: 5d5357fe5657d5c459637f2b7d746fda, type: 2}
   bossStages:
   - {fileID: 11400000, guid: e2291222c74e3b14583d482a05007d76, type: 2}
+  - {fileID: 11400000, guid: 21eadbad964673f4692e71c197215476, type: 2}
   currentStage: 0
   lockEnemyInput: 1
-  randomSeed: 1
+  randomSeed: 2
 --- !u!1 &1983033054
 GameObject:
   m_ObjectHideFlags: 0

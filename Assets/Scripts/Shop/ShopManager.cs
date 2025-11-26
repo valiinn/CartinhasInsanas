@@ -17,6 +17,8 @@ public class ShopManager : MonoBehaviour
     [Header("UI")]
     public Button refreshButton;
     public int cardsPerRefresh = 5;
+    [Tooltip("Custo em gold para dar refresh na loja")]
+    public int refreshCost = 1;
 
     [Header("Prefabs de carta disponíveis")]
     public List<GameObject> availableCards = new List<GameObject>();
@@ -28,12 +30,48 @@ public class ShopManager : MonoBehaviour
         if (previewLayer == null) previewLayer = draggingLayer;
         if (playerStats == null) playerStats = GetFirstPlayerStats();
 
+        // Wire o botão para o método que cobre o gold
         if (refreshButton != null)
-            refreshButton.onClick.AddListener(RefreshShop);
+        {
+            refreshButton.onClick.RemoveAllListeners();
+            refreshButton.onClick.AddListener(OnRefreshButtonPressed);
+        }
 
+        // Popula a loja no início SEM cobrar
         RefreshShop();
     }
 
+    /// <summary>
+    /// Chamado quando o jogador aperta o botão de refresh.
+    /// Verifica se há gold suficiente, debita e então atualiza a loja.
+    /// </summary>
+    public void OnRefreshButtonPressed()
+    {
+        if (playerStats != null)
+        {
+            if (playerStats.gold >= refreshCost)
+            {
+                playerStats.SpendGold(refreshCost);
+                RefreshShop();
+            }
+            else
+            {
+                // Sem ouro suficiente -> opcional: feedback visual/sonoro aqui.
+                Debug.Log("Não há gold suficiente para dar refresh.");
+                // Você pode aqui desabilitar o botão temporariamente, mostrar um popup, etc.
+            }
+        }
+        else
+        {
+            // Se não houver referência a PlayerStats, apenas faz o refresh (fallback)
+            RefreshShop();
+        }
+    }
+
+    /// <summary>
+    /// Atualiza o conteúdo visual da loja (não cobra nada).
+    /// Use OnRefreshButtonPressed para cobrar quando for por botão.
+    /// </summary>
     public void RefreshShop()
     {
         // Limpa a loja
