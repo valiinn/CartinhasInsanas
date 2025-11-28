@@ -24,9 +24,6 @@ O foco do projeto está em:
 
 ---
 
-# 🎞️ Evolução do Jogo (GIFs)
-
-
 ## 🎬 Evolução do Jogo (GIFs)
 
 ### Antes
@@ -34,7 +31,6 @@ O foco do projeto está em:
 
 ### Depois
 ![Depois](./gif2.gif)
-
 
 ---
 
