@@ -27,29 +27,18 @@ O foco do projeto está em:
 # 🎞️ Evolução do Jogo (GIFs)
 
 
-### **🎬 GIF 1 — Inicio do Projeto (Sprints 1-2)**
+### **🎬 Antes**
 
 ```
-![gif1](./gifs/gif1.gif)
+![Antes](./gif1.gif)
 ```
 
-### **🎬 GIF 2 — Combate inicial (Sprints 3-5)**
+### **🎬 Depois**
 
 ```
-![gif2](./gifs/gif2.gif)
+![Depois](./gif2.gif)
 ```
 
-### **🎬 GIF 3 — Melhorias no Combate (Sprints 6-8)**
-
-```
-![gif3](./gifs/gif3.gif)
-```
-
-### **🎬 GIF 4 — Final do Semestre (Sprints 9-10)**
-
-```
-![gif4](./gifs/gif4.gif)
-```
 ---
 
 # 🛠️ Tecnologias Utilizadas
