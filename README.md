@@ -26,10 +26,12 @@ O foco do projeto está em:
 
 ## 🎬 Evolução do Jogo
 
-<p align="center">
-  <img src="./gif1.gif" width="45%" />
-  <img src="./gif2.gif" width="40%" />
-</p>
+### Antes
+![Antes](./gif1.gif)
+
+### Depois
+![Depois](./gif2.gif)
+
 
 
 ---
