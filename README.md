@@ -28,7 +28,7 @@ O foco do projeto está em:
 
 <p align="center">
   <img src="./gif1.gif" width="45%" />
-  <img src="./gif2.gif" width="45%" />
+  <img src="./gif2.gif" width="35%" />
 </p>
 
 
