@@ -27,17 +27,14 @@ O foco do projeto está em:
 # 🎞️ Evolução do Jogo (GIFs)
 
 
-### **🎬 Antes**
+## 🎬 Evolução do Jogo (GIFs)
 
-```
+### Antes
 ![Antes](./gif1.gif)
-```
 
-### **🎬 Depois**
-
-```
+### Depois
 ![Depois](./gif2.gif)
-```
+
 
 ---
 
